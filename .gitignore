@@ -1,0 +1,6 @@
+.idea
+*.iml
+target
+application-local*.yml
+docker-compose-up.local.sh
+tools/*
