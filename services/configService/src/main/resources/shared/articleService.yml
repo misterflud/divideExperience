@@ -20,5 +20,5 @@ spring:
 server:
   servlet:
     context-path: /article
-  port: 8083
+  port: 6000
 
