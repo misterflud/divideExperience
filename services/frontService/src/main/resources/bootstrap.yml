@@ -1,6 +1,7 @@
+
 spring:
   application:
-    name: articleService
+    name: frontService
   cloud:
     config:
       uri: http://localhost:8888

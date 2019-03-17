@@ -10,6 +10,6 @@ public interface ArticleDao {
 
     void addArticle(ArticleModel articleModel) throws AddingArticleException;
     void updateArticle(ArticleModel articleModel);
-    ArticleModel getArticle(Long articleId);
-    void deleteArticle(Long articleId);
+    ArticleModel getArticle(Integer articleId);
+    void deleteArticle(Integer articleId);
 }

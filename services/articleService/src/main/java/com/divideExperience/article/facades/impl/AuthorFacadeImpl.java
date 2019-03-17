@@ -29,7 +29,7 @@ public class AuthorFacadeImpl implements AuthorFacade {
     }
 
     @Override
-    public AuthorItem getAuthor(Long id) {
+    public AuthorItem getAuthor(Integer id) {
         return null;
     }
 }

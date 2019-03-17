@@ -11,13 +11,18 @@ import java.util.Date;
 @Table(name = "AUTHOR")
 @NamedQueries({
         @NamedQuery(name = "AuthorModel.findById",
-                query = "select a from AuthorModel a"),
+                query = "select a from AuthorModel a where a.id = :id"),
+        @NamedQuery(name = "AuthorModel.findByEmail",
+                query = "select a from AuthorModel a where a.email = :email")
 })
 public class AuthorModel implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     private Integer id;
+
+    @Column(name = "EMAIL")
+    private String email;
 
     @Column(name = "NICK_NAME")
     private String nickName;
@@ -41,6 +46,14 @@ public class AuthorModel implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getNickName() {

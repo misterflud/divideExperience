@@ -1,5 +1,6 @@
 package com.divideExperience.article.facades.impl;
 
+import com.divideExperience.article.converters.toItem.ArticleConverterToItem;
 import com.divideExperience.article.converters.toModel.ArticleConverterToModel;
 import com.divideExperience.article.exceptions.AddingArticleException;
 import com.divideExperience.article.facades.ArticleFacade;
@@ -18,6 +19,9 @@ public class ArticleFacadeImpl implements ArticleFacade {
     private ArticleConverterToModel articleConverterToModel;
 
     @Autowired
+    private ArticleConverterToItem articleConverterToItem;
+
+    @Autowired
     private ArticleService articleService;
 
     @Override
@@ -26,12 +30,12 @@ public class ArticleFacadeImpl implements ArticleFacade {
     }
 
     @Override
-    public MainArticleItem getArticle(Long articleId) {
-        return articleService.getArticle(articleId);
+    public MainArticleItem getArticle(Integer articleId) {
+        return articleConverterToItem.convert(articleService.getArticle(articleId));
     }
 
     @Override
-    public void deleteArticle(Long articleId) {
+    public void deleteArticle(Integer articleId) {
 
     }
 }

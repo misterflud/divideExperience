@@ -9,6 +9,8 @@ import com.divideExperience.article.services.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 /**
  * Created by AOleynikov on 04.01.2019.
  */
@@ -18,16 +20,15 @@ public class ArticleServiceImpl implements ArticleService {
     @Autowired
     private ArticleDao articleDao;
 
-    @Autowired
-    private ArticleConverterToItem articleConverterToItem;
 
     @Override
     public void addArticle(ArticleModel articleModel) throws AddingArticleException {
+        articleModel.setDate(new Date());
         articleDao.addArticle(articleModel);
     }
 
     @Override
-    public MainArticleItem getArticle(Long articleId) {
-        return articleConverterToItem.convert(articleDao.getArticle(articleId));
+    public ArticleModel getArticle(Integer articleId) {
+        return articleDao.getArticle(articleId);
     }
 }

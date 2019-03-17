@@ -4,3 +4,9 @@ target
 application-local*.yml
 docker-compose-up.local.sh
 tools/*
+node_modules/
+generated/
+npm-*.log
+built
+package-lock.json
+bundle.js

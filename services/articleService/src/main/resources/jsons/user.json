@@ -1,9 +1,7 @@
 {
-  "authorItem" : {
-    "email" : "yurolejniko@yandex.ru",
-    "nickName" : "oomn3",
-    "firstName" : "Anton",
-    "secondName" : "Oleynikov",
-    "thirdName" : "Yurievich"
-  }
+  "email" : "yurolejniko@yandex.ru",
+  "nickName" : "oomn3",
+  "firstName" : "Anton",
+  "secondName" : "Oleynikov",
+  "thirdName" : "Yurievich"
 }

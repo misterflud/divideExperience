@@ -8,6 +8,7 @@ import com.divideExperience.article.domainObjects.AuthorModel;
 public interface AuthorDao {
     void addAuthor(AuthorModel authorModel);
     void updateAuthor(AuthorModel authorModel);
-    AuthorModel getAuthor(Long authorId);
-    void deleteAuthor(Long authorId);
+    AuthorModel getAuthor(Integer authorId);
+    AuthorModel getAuthorByEmail(String email);
+    void deleteAuthor(Integer authorId);
 }

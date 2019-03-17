@@ -8,6 +8,6 @@ import com.divideExperience.article.exceptions.AddingArticleException;
  */
 public interface ArticleFacade {
     void addArticle(MainArticleItem articleItem) throws AddingArticleException;
-    MainArticleItem getArticle(Long articleId);
-    void deleteArticle(Long articleId);
+    MainArticleItem getArticle(Integer articleId);
+    void deleteArticle(Integer articleId);
 }
