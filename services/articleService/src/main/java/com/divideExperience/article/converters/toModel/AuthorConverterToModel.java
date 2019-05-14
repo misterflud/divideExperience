@@ -13,7 +13,11 @@ public class AuthorConverterToModel implements Converter<AuthorItem, AuthorModel
     @Override
     public AuthorModel convert(AuthorItem authorItem) {
         AuthorModel authorModel = new AuthorModel();
-
-        return null;
+        authorModel.setEmail(authorItem.getEmail());
+        authorModel.setNickName(authorItem.getNickName());
+        authorModel.setFirstName(authorItem.getFirstName());
+        authorModel.setSecondName(authorItem.getSecondName());
+        authorModel.setThirdName(authorItem.getThirdName());
+        return authorModel;
     }
 }

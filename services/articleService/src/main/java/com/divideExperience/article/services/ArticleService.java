@@ -9,5 +9,5 @@ import com.divideExperience.article.exceptions.AddingArticleException;
  */
 public interface ArticleService {
     void addArticle(ArticleModel articleModel) throws AddingArticleException;
-    MainArticleItem getArticle(Long articleId);
+    ArticleModel getArticle(Integer articleId);
 }

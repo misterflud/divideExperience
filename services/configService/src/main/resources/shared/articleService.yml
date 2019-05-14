@@ -1,8 +1,4 @@
 spring:
-#  profiles:
-#    active: spring.profiles.active
-#  main:
-#    web-application-type: none
   datasource:
     platform: postgres
     url: jdbc:postgresql://localhost:5432/article
@@ -11,7 +7,7 @@ spring:
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
       dialect: org.hibernate.dialect.PostgreSQL9Dialect
       show_sql: true
     properties.hibernate.temp.use_jdbc_metadata_defaults: false
@@ -20,5 +16,5 @@ spring:
 server:
   servlet:
     context-path: /article
-  port: 6000
+  port: 6002
 

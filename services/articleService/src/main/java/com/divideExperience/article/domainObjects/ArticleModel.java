@@ -7,13 +7,13 @@ import java.util.Date;
 /**
  * Created by AOleynikov on 02.01.2019.
  */
-//select distinct c from ArticleModel c left join fetch c.contactTelDetails t left join fetch c.hobbies h
-//select distinct c from ArticleModel c left join fetch c.author t where c.id =:id
 @Entity
 @Table(name = "ARTICLE")
 @NamedQueries({
         @NamedQuery(name = "ArticleModel.findById",
                 query = "select distinct c from ArticleModel c left join fetch c.authorModel t where c.id =:id"),
+        @NamedQuery(name = "ArticleModel.findById.short",
+                query = "select distinct c from ArticleModel c where c.id =:id"),
 })
 public class ArticleModel implements Serializable {
     @Id
@@ -21,15 +21,15 @@ public class ArticleModel implements Serializable {
     @Column(name = "ID")
     private Integer id;
 
-    @Version
-    @Column(name = "VERSION", insertable = false, updatable = false)
-    private int version;
+//    @Version
+//    @Column(name = "VERSION", insertable = false, updatable = false)
+//    private int version;
 
     @OneToOne
     @JoinColumn(name = "AUTHOR_ID")
     private AuthorModel authorModel;
 
-    @Column(name = "VERSION")
+    @Column(name = "TITLE")
     private String title;
 
     @Column(name = "BODY")
@@ -47,13 +47,13 @@ public class ArticleModel implements Serializable {
         this.id = id;
     }
 
-    public int getVersion() {
-        return version;
-    }
-
-    public void setVersion(int version) {
-        this.version = version;
-    }
+//    public int getVersion() {
+//        return version;
+//    }
+//
+//    public void setVersion(int version) {
+//        this.version = version;
+//    }
 
     public AuthorModel getAuthorModel() {
         return authorModel;

@@ -34,14 +34,21 @@ public class AuthorDaoImpl implements AuthorDao {
     }
 
     @Override
-    public AuthorModel getAuthor(Long authorId) {
+    public AuthorModel getAuthor(Integer authorId) {
         try (Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession()){
             return (AuthorModel) session.getNamedQuery("AuthorModel.findById").setParameter("id", authorId).uniqueResult();
         }
     }
 
     @Override
-    public void deleteAuthor(Long authorId) {
+    public AuthorModel getAuthorByEmail(String email) {
+        try (Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession()){
+            return (AuthorModel) session.getNamedQuery("AuthorModel.findByEmail").setParameter("email", email).uniqueResult();
+        }
+    }
+
+    @Override
+    public void deleteAuthor(Integer authorId) {
 
     }
 }

@@ -1,0 +1,41 @@
+{
+  "name": "article",
+  "version": "1.0.0",
+  "description": "React Front",
+  "main": "index.js",
+  "scripts": {
+    "watch": "webpack --watch -d",
+    "dev": "webpack-dev-server",
+    "build": "webpack -d",
+    "server": "webpack-dev-server --open"
+  },
+  "author": "AOleynikov",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^4.3.1",
+    "css-loader": "^2.1.1",
+    "jquery": "^1.9.1",
+    "popper.js": "^1.14.7",
+    "react": "^16.8.3",
+    "react-bootstrap": "^1.0.0-beta.8",
+    "react-dom": "^16.8.3",
+    "requirejs": "^2.3.6",
+    "rest": "^2.0.0",
+    "style-loader": "^0.23.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.3.4",
+    "@babel/preset-env": "^7.3.4",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/preset-stage-0": "^7.0.0",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^8.0.5",
+    "babel-plugin-transform-regenerator": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.2.3",
+    "webpack-dev-server": "^3.2.1"
+  }
+}

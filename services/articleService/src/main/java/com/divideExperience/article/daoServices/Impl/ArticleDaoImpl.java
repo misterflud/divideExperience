@@ -41,14 +41,14 @@ public class ArticleDaoImpl implements ArticleDao {
     }
 
     @Override
-    public ArticleModel getArticle(Long articleId) {
+    public ArticleModel getArticle(Integer articleId) {
         try (Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession()){
             return (ArticleModel) session.getNamedQuery("ArticleModel.findById").setParameter("id", articleId).uniqueResult();
         }
     }
 
     @Override
-    public void deleteArticle(Long articleId) {
+    public void deleteArticle(Integer articleId) {
 //        sessionFactory.getCurrentSession().delete();
     }
 }

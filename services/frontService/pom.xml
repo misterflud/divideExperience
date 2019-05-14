@@ -2,14 +2,72 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <artifactId>frontService</artifactId>
+    <packaging>jar</packaging>
+    <version>1.0-SNAPSHOT</version>
+    <modelVersion>4.0.0</modelVersion>
+    <name>frontService</name>
+
     <parent>
         <artifactId>divideExperience</artifactId>
         <groupId>com.divideExperience</groupId>
         <version>1.0-SNAPSHOT</version>
+        <relativePath>../../pom.xml</relativePath>
     </parent>
-    <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>frontService</artifactId>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>1.8</java.version>
+        <CONFIG_SERVICE_PASSWORD>111</CONFIG_SERVICE_PASSWORD>
+        <frontend-maven-plugin.version>1.7.5</frontend-maven-plugin.version>
+        <frontendSrcDir>src/main/resources/static</frontendSrcDir>
+    </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-config</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+        <!--TODO delete from prod (отвечает за hot reload статичных ресурсов)-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional>
+        </dependency>
+    </dependencies>
+
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+
+        <profile>
+            <id>prod</id>
+        </profile>
+    </profiles>
+
+    <build>
+        <plugins>
+            <plugin >
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <finalName>${project.name}</finalName>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
