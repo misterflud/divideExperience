@@ -1,19 +1,19 @@
 import React from 'react';
-import ArticlePage from "./ArticlePage.jsx";
-
-const ReactDOM = require('react-dom');
+import TopBar from "./blocks/TopBar.jsx";
+import Routes from "./utils/Routes.jsx";
+import {BrowserRouter} from "react-router-dom";
 
 class App extends React.Component {
     render() {
         return(
             <div className="App">
-                <ArticlePage/>
+                <BrowserRouter>
+                    <Routes/>
+                    <TopBar/>
+                </BrowserRouter>
             </div>
         );
     }
 }
 
-ReactDOM.render(
-    <App />,
-    document.getElementById('app')
-)
+export default App;

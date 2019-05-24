@@ -1,0 +1,35 @@
+server:
+  servlet:
+    context-path: /auth
+  port: 7002
+
+spring:
+  application:
+    name: authService
+  datasource:
+    platform: postgres
+    url: jdbc:postgresql://localhost:5432/authService
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+#      ddl-auto: create-drop
+      dialect: org.hibernate.dialect.PostgreSQL9Dialect
+      show_sql: true
+    properties.hibernate.temp.use_jdbc_metadata_defaults: false
+
+security:
+  oauth2:
+    web:
+      jwt:
+        key-value: 6<(!|KvW[?La+eBp*Ui{AN#8ws=2ddOV{RUGl["(=Udsup|^"QvGvCH{]lOaJu3
+
+logging:
+  level:
+    roor: DEBUG
+    org:
+      springframework:
+        security=DEBUG:
+
