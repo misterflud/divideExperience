@@ -24,6 +24,8 @@ On command line, type in the following commands (in directory ../front):
       npm install react requirejs react-dom rest --save
       npm install babel-loader babel-core webpack webpack-dev-server @babel/preset-stage-0 babel-plugin-transform-regenerator @babel/preset-env @babel/preset-react --save-dev
       npm install react-bootstrap bootstrap
+      npm install --save react-router-dom
+      npm install --save react-router-bootstrap
 
 The key "save" does installation just for development.
 

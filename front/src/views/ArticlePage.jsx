@@ -1,8 +1,8 @@
 import React from 'react';
-import {Button, Table} from 'react-bootstrap';
-import {Form, Container } from 'react-bootstrap'
+import {Button, Container, Form, Table} from 'react-bootstrap';
+import URIUtil from "../utils/URIUtil.jsx";
 
-const articleUrl = "http://localhost:6002/article/get";
+const articleUrl = "article/get";
 
 var getArticleUrl;
 var articleBlock = "";
@@ -34,7 +34,7 @@ class ArticlePage extends React.Component {
     };
 
     formUrl(id) {
-        var url = new URL(articleUrl), params = {articleId:id};
+        var url = new URL(URIUtil.getSiteURI(articleUrl)), params = {articleId: id};
         Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
         getArticleUrl = url;
     };
@@ -54,9 +54,9 @@ class ArticlePage extends React.Component {
                 );
             }
         )
-        .catch(function (error) {
-            console.log('error', error)
-        });
+            .catch(function (error) {
+                console.log('error', error)
+            });
     };
 
     printArticle() {
@@ -64,11 +64,11 @@ class ArticlePage extends React.Component {
             articleBlock =
                 <Table>
                     <thead>
-                        <tr>
-                            <th>
-                                {this.state.article.title}
-                            </th>
-                        </tr>
+                    <tr>
+                        <th>
+                            {this.state.article.title}
+                        </th>
+                    </tr>
                     </thead>
                     <tbody>
                     {
@@ -86,14 +86,15 @@ class ArticlePage extends React.Component {
     }
 
     render() {
-        return(
+        return (
             <div>
                 <div>
                     <Container className="p-5">
-                        <h1>Print Article from server</h1>
+                        <h3>Print Article from server</h3>
                         <Form noValidate onSubmit={e => this.onFormSubmit(e)}>
                             <Form.Group controlId="formBasicEmail">
-                                <Form.Control placeholder = "id article" value={this.state.value} onChange={this.handleChange}/>
+                                <Form.Control placeholder="id article" value={this.state.value}
+                                              onChange={this.handleChange}/>
                             </Form.Group>
                             <Button variant="primary" type="submit">
                                 Get article by id
@@ -105,10 +106,10 @@ class ArticlePage extends React.Component {
                     <Container className="p-5">
                         {articleBlock}
                     </Container>
-
                 </div>
             </div>
         );
     }
 }
+
 export default ArticlePage;

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Created by AOleynikov on 17.01.2019.
- * /article.
+ *
  */
 @RestController
 @RequestMapping("/author")
@@ -25,7 +25,7 @@ public class AuthorController {
      * Adds author.
      * @param authorItem dto of author.
      */
-    @RequestMapping(value = "/add", method = RequestMethod.POST, produces = "application/json")
+    @RequestMapping(value = "/p/add", method = RequestMethod.POST, produces = "application/json")
     public void addAuthor(@RequestBody AuthorItem authorItem) {
         authorFacade.addAuthor(authorItem);
     }
@@ -44,7 +44,7 @@ public class AuthorController {
      * Deletes author.
      * @param authorItem dto of author.
      */
-    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    @RequestMapping(value = "/p/delete", method = RequestMethod.POST)
     public void deleteAuthor(@RequestBody AuthorItem authorItem) {
         authorFacade.deleteAuthor(authorItem);
     }
