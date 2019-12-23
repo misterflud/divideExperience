@@ -11,7 +11,7 @@ import org.springframework.util.Assert;
 import javax.annotation.Resource;
 
 /**
- * @author Anton Oleynikov {@literal <aoleynikov@fil-it.ru>}
+ * @author Anton Oleynikov {@literal <yurolejniko@yandex.ru>}
  */
 @Service
 public class JwtAuthenticationTokenProvider implements AuthenticationProvider {
@@ -26,10 +26,17 @@ public class JwtAuthenticationTokenProvider implements AuthenticationProvider {
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         Assert.notNull(authentication, "Authentication is missing");
         Assert.isInstanceOf(JwtAuthenticationToken.class, authentication, "This method only accepts JwtAuthenticationToken");
-        String email = tokenProcessor.getUserFromToken(authentication.getName());
-        UserDetails userDetails = userDetailsService.loadUserByUsername(email);
-        if (userDetails != null) {
-            return new UserTokenDetail(userDetails);
+        if (((JwtAuthenticationToken) authentication).getTypeClient().equals(TypeClient.USER)) {
+            String email = tokenProcessor.getUserFromToken(authentication.getName());
+            UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+            if (userDetails != null) {
+                return new UserTokenDetail(userDetails);
+            }
+        } else {
+            UserDetails userDetails = tokenProcessor.getUserDetailsForService(authentication.getName());
+            if (userDetails != null) {
+                return new UserTokenDetail(userDetails);
+            }
         }
         return null;
     }

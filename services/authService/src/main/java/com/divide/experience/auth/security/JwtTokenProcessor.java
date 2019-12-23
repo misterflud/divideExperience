@@ -4,22 +4,27 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.HashSet;
 
 /**
- * @author Anton Oleynikov {@literal <aoleynikov@fil-it.ru>}
+ * @author Anton Oleynikov {@literal <yurolejniko@yandex.ru>}
  */
 @Component
 public class JwtTokenProcessor implements TokenProcessor {
 
-    static final long EXPIRATIONTIME = 864_000_00; // 1 day
-
+    private static final long EXPIRATIONTIME = 864_000_00; // 1 day
     private static final String LOGIN_FIELD = "login";
+
 
     @Value("${security.oauth2.web.jwt.key-value}")
     private String SECRET;
+
+    @Value("${security.oauth2.article.jwt.key-value}")
+    private String ARTICLE_SERVICE_SECRET;
 
     @Override
     public String getUserFromToken(String token) {
@@ -41,5 +46,17 @@ public class JwtTokenProcessor implements TokenProcessor {
                 .signWith(SignatureAlgorithm.HS512, SECRET)
                 .compact();
         return JWT;
+    }
+
+    @Override
+    public UserDetails getUserDetailsForService(String token) {
+        if (token.equals(ARTICLE_SERVICE_SECRET)) {
+            return new org.springframework.security.core.userdetails.User(
+                    "ARTICLE_SERVICE",
+                    "",
+                    new HashSet<>()
+            );
+        }
+        return null;
     }
 }

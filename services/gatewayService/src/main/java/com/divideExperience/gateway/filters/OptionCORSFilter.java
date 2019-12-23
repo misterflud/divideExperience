@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * @author Anton Oleynikov {@literal <aoleynikov@fil-it.ru>}
+ * @author Anton Oleynikov {@literal <yurolejniko@yandex.ru>}
  */
 public class OptionCORSFilter extends ZuulFilter {
 

@@ -5,13 +5,15 @@ import java.io.Serializable;
 /**
  * Created by AOleynikov on 02.01.2019.
  */
-public abstract class MainArticleItem implements Serializable {
+public abstract class ArticleItem implements Serializable {
 
     private Integer id;
 
     private String title;
 
     private String body;
+
+    private String date;
 
     private AuthorItem authorItem;
 
@@ -37,6 +39,14 @@ public abstract class MainArticleItem implements Serializable {
 
     public void setBody(String body) {
         this.body = body;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public AuthorItem getAuthorItem() {

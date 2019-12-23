@@ -11,6 +11,7 @@ public interface AuthorService {
 
     /**
      * Gets author.
+     *
      * @param authorId This is id of author.
      * @return Author.
      */
@@ -18,6 +19,7 @@ public interface AuthorService {
 
     /**
      * Gets author.
+     *
      * @param email This is registration email of author.
      * @return Author.
      */
@@ -25,6 +27,7 @@ public interface AuthorService {
 
     /**
      * Adds author.
+     *
      * @param authorModel This is new author.
      */
     void addAuthor(AuthorModel authorModel);

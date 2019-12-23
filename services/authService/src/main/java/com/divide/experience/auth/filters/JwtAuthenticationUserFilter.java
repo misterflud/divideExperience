@@ -1,6 +1,7 @@
 package com.divide.experience.auth.filters;
 
 import com.divide.experience.auth.security.JwtAuthenticationToken;
+import com.divide.experience.auth.security.TypeClient;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
@@ -22,13 +23,13 @@ import static java.util.Optional.ofNullable;
 import static org.apache.commons.lang3.StringUtils.removeStart;
 
 /**
- * @author Anton Oleynikov {@literal <aoleynikov@fil-it.ru>}
+ * @author Anton Oleynikov {@literal <yurolejniko@yandex.ru>}
  */
-public class JwtAuthenticationFilter2 extends AbstractAuthenticationProcessingFilter {
+public class JwtAuthenticationUserFilter extends AbstractAuthenticationProcessingFilter {
 
     private static final String BEARER = "Bearer";
 
-    public JwtAuthenticationFilter2(final String matcher, AuthenticationManager authenticationManager) {
+    public JwtAuthenticationUserFilter(final String matcher, AuthenticationManager authenticationManager) {
         super(matcher);
         super.setAuthenticationManager(authenticationManager);
     }
@@ -44,7 +45,7 @@ public class JwtAuthenticationFilter2 extends AbstractAuthenticationProcessingFi
             throw new AuthenticationCredentialsNotFoundException("No JWT token in request headers");
         }
 
-        JwtAuthenticationToken token = new JwtAuthenticationToken(removeStart(request.getHeader(AUTHORIZATION), BEARER));
+        JwtAuthenticationToken token = new JwtAuthenticationToken(removeStart(request.getHeader(AUTHORIZATION), BEARER), TypeClient.USER);
         return getAuthenticationManager().authenticate(token);
     }
 

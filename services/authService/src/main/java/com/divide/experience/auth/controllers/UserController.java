@@ -21,12 +21,24 @@ public class UserController {
 
     private UserFacade userFacade;
 
+    /**
+     * Registration.
+     *
+     * @param newUserItem dto.
+     * @return result, in future adds container like Result.
+     */
     @RequestMapping(value = "/registration", method = RequestMethod.POST, produces = "application/json")
     public boolean registrationUser(@RequestBody NewUserItem newUserItem) {
         registrationFacade.registrationUser(newUserItem);
         return true;
     }
 
+    /**
+     * Gets user by email.
+     *
+     * @param email email.
+     * @return dto.
+     */
     @RequestMapping(value = "/getUser", method = RequestMethod.GET)
     public UserItem getUser(String email) {
         return userFacade.getUserByEmail(email);

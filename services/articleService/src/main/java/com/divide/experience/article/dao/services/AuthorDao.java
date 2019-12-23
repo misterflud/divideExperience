@@ -11,18 +11,21 @@ public interface AuthorDao {
 
     /**
      * Adds author.
+     *
      * @param authorModel This is new author.
      */
     void addAuthor(AuthorModel authorModel);
 
     /**
      * Updates author in database.
+     *
      * @param authorModel This author model with updated fields.
      */
     void updateAuthor(AuthorModel authorModel);
 
     /**
      * Gets author.
+     *
      * @param authorId This is id.
      * @return Author.
      */
@@ -30,6 +33,7 @@ public interface AuthorDao {
 
     /**
      * Gets author.
+     *
      * @param email This is registration email of author(user).
      * @return Author This is what exactly adds to database.
      */
@@ -37,6 +41,7 @@ public interface AuthorDao {
 
     /**
      * Deletes author.
+     *
      * @param authorId This is id of author.
      */
     void deleteAuthor(Integer authorId);

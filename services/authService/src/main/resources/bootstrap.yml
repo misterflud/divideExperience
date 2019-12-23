@@ -25,6 +25,9 @@ security:
     web:
       jwt:
         key-value: 6<(!|KvW[?La+eBp*Ui{AN#8ws=2ddOV{RUGl["(=Udsup|^"QvGvCH{]lOaJu3
+    article:
+      jwt:
+        key-value: articleService
 
 logging:
   level:

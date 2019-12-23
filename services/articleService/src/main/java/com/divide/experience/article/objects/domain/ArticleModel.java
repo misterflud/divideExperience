@@ -1,7 +1,5 @@
 package com.divide.experience.article.objects.domain;
 
-import java.io.Serializable;
-import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,6 +10,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Created by AOleynikov on 02.01.2019.
@@ -20,9 +20,15 @@ import javax.persistence.Table;
 @Table(name = "ARTICLE")
 @NamedQueries({
         @NamedQuery(name = "ArticleModel.findById",
-                query = "select distinct c from ArticleModel c left join fetch c.authorModel t where c.id =:id"),
+                query = "SELECT DISTINCT a FROM ArticleModel a LEFT JOIN FETCH a.authorModel t WHERE a.id =:id"),
         @NamedQuery(name = "ArticleModel.findById.short",
-                query = "select distinct c from ArticleModel c where c.id =:id"),
+                query = "SELECT DISTINCT a FROM ArticleModel a WHERE a.id =:id"),
+        @NamedQuery(name = "ArticleModel.all",
+                query = "SELECT a FROM ArticleModel a"),
+        @NamedQuery(name = "ArticleModel.getNotSavedArticle",
+                query = "SELECT a FROM ArticleModel a LEFT JOIN FETCH a.authorModel at WHERE at.id = :authorId and a.saved = false"),
+        @NamedQuery(name = "ArticleModel.list",
+                query = "SELECT a FROM ArticleModel a WHERE a.saved = true ORDER BY a.date DESC")
 })
 public class ArticleModel implements Serializable {
 
@@ -30,10 +36,6 @@ public class ArticleModel implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     private Integer id;
-
-//    @Version
-//    @Column(name = "VERSION", insertable = false, updatable = false)
-//    private int version;
 
     @OneToOne
     @JoinColumn(name = "AUTHOR_ID")
@@ -48,6 +50,8 @@ public class ArticleModel implements Serializable {
     @Column(name = "DATE")
     private Date date;
 
+    @Column(name = "SAVED")
+    private boolean saved = false;
 
     public Integer getId() {
         return id;
@@ -56,14 +60,6 @@ public class ArticleModel implements Serializable {
     public void setId(Integer id) {
         this.id = id;
     }
-
-//    public int getVersion() {
-//        return version;
-//    }
-//
-//    public void setVersion(int version) {
-//        this.version = version;
-//    }
 
     public AuthorModel getAuthorModel() {
         return authorModel;
@@ -87,6 +83,14 @@ public class ArticleModel implements Serializable {
 
     public void setBody(String body) {
         this.body = body;
+    }
+
+    public boolean isSaved() {
+        return saved;
+    }
+
+    public void setSaved(boolean saved) {
+        this.saved = saved;
     }
 
     public Date getDate() {
