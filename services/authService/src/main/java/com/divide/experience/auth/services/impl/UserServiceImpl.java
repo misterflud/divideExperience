@@ -2,8 +2,11 @@ package com.divide.experience.auth.services.impl;
 
 import com.divide.experience.auth.dao.services.UserDao;
 import com.divide.experience.auth.objects.domain.UserModel;
+import com.divide.experience.auth.security.JwtTokenProcessor;
 import com.divide.experience.auth.services.UserService;
 import javax.annotation.Resource;
+
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 /**
@@ -13,6 +16,8 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService {
 
     private UserDao userDao;
+    private JwtTokenProcessor tokenProcessor;
+    private UserDetailsServiceImpl userDetailsService;
 
     @Override
     public UserModel getUserByEmail(String email) {
@@ -20,12 +25,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserModel getUserByAuthToken(String authToken) {
-        return userDao.getUserByAuthToken(authToken);
+    public UserDetails getUserDetailsByAuthToken(String authToken) {
+        String email = tokenProcessor.getUserFromToken(authToken);
+        return userDetailsService.loadUserByUsernameWithoutPassword(email);
     }
 
     @Resource
     public void setUserDao(UserDao userDao) {
         this.userDao = userDao;
+    }
+
+    @Resource
+    public void setTokenProcessor(JwtTokenProcessor tokenProcessor) {
+        this.tokenProcessor = tokenProcessor;
+    }
+
+    @Resource
+    public void setUserDetailsService(UserDetailsServiceImpl userDetailsService) {
+        this.userDetailsService = userDetailsService;
     }
 }

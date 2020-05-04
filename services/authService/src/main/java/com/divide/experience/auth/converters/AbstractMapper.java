@@ -9,6 +9,9 @@ import org.modelmapper.ModelMapper;
 
 /**
  * Created by AOleynikov on 29.05.2019.
+ *
+ * For simple conversation current library (model mapper) easy solving,
+ * but for other things you should add custom mapper or write converters.
  */
 public abstract class AbstractMapper <M extends Model, I extends Item> implements Mapper<M, I>{
 

@@ -1,7 +1,10 @@
 package com.divide.experience.article.facades;
 
 import com.divide.experience.article.exceptions.AddingArticleException;
-import com.divide.experience.article.objects.transport.MainArticleItem;
+import com.divide.experience.article.objects.PaginationParameters;
+import com.divide.experience.article.objects.transport.ArticleItem;
+
+import java.util.List;
 
 /**
  * Created by AOleynikov on 04.01.2019.
@@ -10,21 +13,46 @@ public interface ArticleFacade {
 
     /**
      * Adds article.
+     *
      * @param articleItem This is dto of article.
      * @throws AddingArticleException This is business exception.
      */
-    void addArticle(MainArticleItem articleItem) throws AddingArticleException;
+    void addArticle(ArticleItem articleItem) throws AddingArticleException;
+
+    /**
+     * Saves article for future redaction (flag 'save' in dataBase will be false).
+     *
+     * @param articleItem article.
+     */
+    void saveArticle(ArticleItem articleItem);
+
+    /**
+     * Gets articles.
+     *
+     * @param pagination pagination.
+     * @return list of article.
+     */
+    List<ArticleItem> getArticles(PaginationParameters pagination);
 
     /**
      * Gets article.
+     *
      * @param articleId This is id of article.
      * @return DTO of article.
      */
-    MainArticleItem getArticle(Integer articleId);
+    ArticleItem getArticle(Integer articleId);
 
     /**
      * Deletes article.
+     *
      * @param articleId This is id of article.
      */
     void deleteArticle(Integer articleId);
+
+    /**
+     * Does all things for new article (when it doesn't save by author).
+     *
+     * @return article with id.
+     */
+    ArticleItem generateAllForArticle();
 }

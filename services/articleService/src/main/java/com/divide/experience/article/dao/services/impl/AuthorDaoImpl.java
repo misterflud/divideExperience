@@ -19,10 +19,6 @@ public class AuthorDaoImpl implements AuthorDao {
     @PersistenceUnit
     private EntityManagerFactory entityManagerFactory;
 
-    /**
-     * Adds author.
-     * @param authorModel This is new author.
-     */
     @Override
     public void addAuthor(AuthorModel authorModel) {
         try (Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession()) {
@@ -30,10 +26,6 @@ public class AuthorDaoImpl implements AuthorDao {
         }
     }
 
-    /**
-     * Updates author in database.
-     * @param authorModel This author model with updated fields.
-     */
     @Override
     public void updateAuthor(AuthorModel authorModel) {
         try (Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession()) {
@@ -41,11 +33,6 @@ public class AuthorDaoImpl implements AuthorDao {
         }
     }
 
-    /**
-     * Gets author.
-     * @param authorId This is id.
-     * @return Author.
-     */
     @Override
     public AuthorModel getAuthor(Integer authorId) {
         try (Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession()) {
@@ -54,11 +41,6 @@ public class AuthorDaoImpl implements AuthorDao {
         }
     }
 
-    /**
-     * Gets author.
-     * @param email This is registration email of author(user).
-     * @return Author This is what exactly adds to database.
-     */
     @Override
     public AuthorModel getAuthorByEmail(String email) {
         try (Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession()) {
@@ -67,10 +49,6 @@ public class AuthorDaoImpl implements AuthorDao {
         }
     }
 
-    /**
-     * Deletes author.
-     * @param authorId This is id of author.
-     */
     @Override
     public void deleteAuthor(Integer authorId) {
 

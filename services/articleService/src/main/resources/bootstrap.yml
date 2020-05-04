@@ -14,6 +14,11 @@ spring:
       show_sql: true
     properties.hibernate.temp.use_jdbc_metadata_defaults: false
 
+security:
+  oauth2:
+    article:
+      jwt:
+        key-value: articleService
 
 server:
   servlet:

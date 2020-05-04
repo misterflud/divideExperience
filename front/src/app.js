@@ -8,8 +8,12 @@ class App extends React.Component {
         return(
             <div className="App">
                 <BrowserRouter>
-                    <Routes/>
-                    <TopBar/>
+                    <div>
+                        <TopBar/>
+                    </div>
+                    <div>
+                        <Routes/>
+                    </div>
                 </BrowserRouter>
             </div>
         );

@@ -9,12 +9,14 @@ public interface AuthorFacade {
 
     /**
      * Adds author.
+     *
      * @param authorItem This is dto of author.
      */
     void addAuthor(AuthorItem authorItem);
 
     /**
      * Deletes author.
+     *
      * @param authorItem This is dto of author.
      * @return Result of deleting.
      */
@@ -22,6 +24,7 @@ public interface AuthorFacade {
 
     /**
      * Gets author.
+     *
      * @param authorId This is id of author.
      * @return Author.
      */

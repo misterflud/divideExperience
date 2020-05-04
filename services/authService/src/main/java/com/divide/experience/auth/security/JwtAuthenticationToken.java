@@ -1,21 +1,21 @@
 package com.divide.experience.auth.security;
 
 import org.springframework.security.authentication.AbstractAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 /**
- * @author Anton Oleynikov {@literal <aoleynikov@fil-it.ru>}
+ * @author Anton Oleynikov {@literal <yurolejniko@yandex.ru>}
  */
 public class JwtAuthenticationToken extends AbstractAuthenticationToken {
 
     private final String token;
+    private TypeClient typeClient;
 
-    public JwtAuthenticationToken(String token) {
+    public JwtAuthenticationToken(String token, TypeClient typeClient) {
         super(new ArrayList<>());
         this.token = token;
+        this.typeClient = typeClient;
         setDetails(token);
     }
 
@@ -27,5 +27,9 @@ public class JwtAuthenticationToken extends AbstractAuthenticationToken {
     @Override
     public Object getPrincipal() {
         return token;
+    }
+
+    public TypeClient getTypeClient() {
+        return typeClient;
     }
 }

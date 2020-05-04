@@ -7,5 +7,10 @@ import com.divide.experience.auth.objects.transport.NewUserItem;
  */
 public interface RegistrationFacade {
 
+    /**
+     * Adds new user.
+     *
+     * @param newUserItem dto.
+     */
     void registrationUser(NewUserItem newUserItem);
 }

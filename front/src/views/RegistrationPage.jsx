@@ -22,6 +22,7 @@ class RegistrationPage extends React.Component {
 
         this.handleChange = this.handleChange.bind(this);
         this.registrationButtonSubmit = this.registrationButtonSubmit.bind(this);
+        this.printResult = this.printResult.bind(this);
     }
 
 
@@ -30,7 +31,6 @@ class RegistrationPage extends React.Component {
     }
 
     registrationButtonSubmit(event) {
-        console.log("registrationButtonSubmit");
         this.sendInformationToServer();
         this.printResult();
     }

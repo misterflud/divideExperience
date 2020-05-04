@@ -1,6 +1,7 @@
 package com.divide.experience.auth.config;
 
-import com.divide.experience.auth.filters.JwtAuthenticationFilter2;
+import com.divide.experience.auth.filters.JwtAuthenticationServiceFilter;
+import com.divide.experience.auth.filters.JwtAuthenticationUserFilter;
 import com.divide.experience.auth.security.JwtAuthenticationTokenProvider;
 import com.divide.experience.auth.security.JwtTokenProcessor;
 import com.divide.experience.auth.filters.LoginAuthenticationFilter;
@@ -47,8 +48,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new LoginAuthenticationFilter("/login", authenticationManagerBean(), jwtTokenProcessor), UsernamePasswordAuthenticationFilter.class)
-//                .addFilterBefore(new JwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(new JwtAuthenticationFilter2("/checkToken", authenticationManagerBean()), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JwtAuthenticationUserFilter("/checkToken", authenticationManagerBean()), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JwtAuthenticationServiceFilter("/user_details", authenticationManagerBean()), UsernamePasswordAuthenticationFilter.class)
                 .csrf().disable();
     }
 

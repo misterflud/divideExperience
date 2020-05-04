@@ -16,10 +16,13 @@ var UserProfile = (function() {
         localStorage.removeItem('authToken');
     };
 
-    var isAuthorized = function () {
+    var isAuthorized = function() {
         return localStorage.getItem('authToken') !== null;
     };
 
+    var getAuthToken = function() {
+        return localStorage.getItem('authToken');
+    };
 
     var getName = function() {
         return localStorage.getItem('firstName');
@@ -51,6 +54,7 @@ var UserProfile = (function() {
         authorizationProcess: authorizationProcess,
         isAuthorized: isAuthorized,
         deleteUserFromSession: deleteUserFromSession,
+        getAuthToken: getAuthToken
     }
 
 })();

@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthorServiceImpl implements AuthorService {
 
-    @Autowired
     private AuthorDaoImpl authorDao;
 
     /**
@@ -44,5 +43,10 @@ public class AuthorServiceImpl implements AuthorService {
     public void addAuthor(AuthorModel authorModel) {
         authorModel.setDateOfRegistration(new Date());
         authorDao.addAuthor(authorModel);
+    }
+
+    @Autowired
+    public void setAuthorDao(AuthorDaoImpl authorDao) {
+        this.authorDao = authorDao;
     }
 }

@@ -50,7 +50,6 @@
     <modules>
         <module>services/gatewayService</module>
         <module>services/articleService</module>
-        <module>services/frontService</module>
         <module>services/configService</module>
         <module>services/authService</module>
     </modules>

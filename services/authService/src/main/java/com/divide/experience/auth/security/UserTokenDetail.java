@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 /**
- * @author Anton Oleynikov {@literal <aoleynikov@fil-it.ru>}
+ * @author Anton Oleynikov {@literal <yurolejniko@yandex.ru>}
  */
 public class UserTokenDetail extends AbstractAuthenticationToken {
 
