@@ -12,8 +12,9 @@
   "author": "AOleynikov",
   "license": "ISC",
   "dependencies": {
+    "@babel/polyfill": "^7.8.7",
     "bootstrap": "^4.3.1",
-    "ckeditor4-react": "^1.0.1",
+    "ckeditor4-react": "^1.1.0",
     "css-loader": "^2.1.1",
     "jquery": "^1.9.1",
     "popper.js": "^1.14.7",
