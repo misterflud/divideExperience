@@ -84,6 +84,7 @@ class ArticleEditorPage extends React.Component {
                     this.setState({
                         resultAdding: "Adding article is successful!"
                     });
+                    window.location.reload();
                 }
             }
         ).catch(function (error) {
@@ -159,7 +160,7 @@ class ArticleEditorPage extends React.Component {
                             Добавить статью
                         </Button>
                         <Button variant="primary" type="submit" onClick={() => this.saveSubmit()}>
-                            Сохранить что можно было вернуться к редактированию позже.
+                            Сохранить, чтобы можно было вернуться к редактированию позже.
                         </Button>
                     </div>
                     <div>

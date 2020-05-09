@@ -4,7 +4,8 @@ module.exports = {
     entry: ['babel-polyfill', './src/index.js'],
     output: {
         path: __dirname,
-        filename: 'bundle.js'
+        filename: 'bundle.js',
+        publicPath: '/'
     },
     module: {
         rules: [
@@ -24,4 +25,7 @@ module.exports = {
             }
         ]
     },
+    devServer: {
+        historyApiFallback: true,
+    }
 };
