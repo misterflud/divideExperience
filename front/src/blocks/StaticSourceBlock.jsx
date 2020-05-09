@@ -119,7 +119,7 @@ class StaticSourceBlock extends React.Component {
                     <li key={key}>
                         {item}
                         <Button variant="dark" type="button" size="sm" onClick={() => this.deleteStatic(item)}>
-                            Delete
+                            Удалить
                         </Button>
                     </li>
                 </ul>
@@ -144,7 +144,7 @@ class StaticSourceBlock extends React.Component {
                                type="file"
                                onChange={(e) => this._handleImageChange(e)}/>
                         <Button variant="primary" type="submit">
-                            Add static source to server
+                            Загрузить картинку на сервер
                         </Button>
                     </Form>
                 </Container>
