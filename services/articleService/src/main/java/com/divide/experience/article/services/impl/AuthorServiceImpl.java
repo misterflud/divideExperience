@@ -3,9 +3,10 @@ package com.divide.experience.article.services.impl;
 import com.divide.experience.article.dao.services.impl.AuthorDaoImpl;
 import com.divide.experience.article.objects.domain.AuthorModel;
 import com.divide.experience.article.services.AuthorService;
-import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
 
 /**
  * Created by AOleynikov on 05.01.2019.
@@ -17,6 +18,7 @@ public class AuthorServiceImpl implements AuthorService {
 
     /**
      * Gets author.
+     *
      * @param authorId This is id of author.
      * @return Author.
      */
@@ -27,6 +29,7 @@ public class AuthorServiceImpl implements AuthorService {
 
     /**
      * Gets author.
+     *
      * @param email This is registration email of author.
      * @return Author.
      */
@@ -37,6 +40,7 @@ public class AuthorServiceImpl implements AuthorService {
 
     /**
      * Adds author.
+     *
      * @param authorModel This is new author.
      */
     @Override

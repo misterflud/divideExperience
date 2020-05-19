@@ -7,5 +7,11 @@ import com.divide.experience.auth.objects.domain.UserModel;
  */
 public interface RegistrationService {
 
+    /**
+     * Adds new user.
+     *
+     * @param userModel userModel.
+     * @param password user's password.
+     */
     void registrationUser(UserModel userModel, String password);
 }

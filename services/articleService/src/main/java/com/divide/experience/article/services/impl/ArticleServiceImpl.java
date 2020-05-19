@@ -7,13 +7,13 @@ import com.divide.experience.article.objects.PaginationParameters;
 import com.divide.experience.article.objects.domain.ArticleModel;
 import com.divide.experience.article.objects.domain.AuthorModel;
 import com.divide.experience.article.services.ArticleService;
-import java.util.Date;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by AOleynikov on 04.01.2019.
@@ -29,7 +29,8 @@ public class ArticleServiceImpl implements ArticleService {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getDetails();
         if (userDetails != null) {
             ArticleModel oldArticle = getArticle(articleModel.getId());
-            if (oldArticle != null) {//TODO: adds protect of saving by stranger author
+            //TODO: adds protect of saving by stranger author
+            if (oldArticle != null) {
                 oldArticle.setSaved(true);
                 oldArticle.setBody(articleModel.getBody());
                 oldArticle.setTitle(articleModel.getTitle());

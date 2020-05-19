@@ -2,6 +2,8 @@ package com.divide.experience.auth.objects.domain;
 
 import com.divide.experience.auth.objects.Role;
 
+import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -12,8 +14,6 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import java.io.Serializable;
-import java.util.Date;
 
 /**
  * Created by AOleynikov on 21.05.2019.

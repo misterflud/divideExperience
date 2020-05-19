@@ -1,7 +1,7 @@
-package com.divideExperience.gateway;
+package com.divide.experience.gateway;
 
-import com.divideExperience.gateway.filters.OptionCORSFilter;
-import com.divideExperience.gateway.filters.PreRequestLogFilter;
+import com.divide.experience.gateway.filters.OptionCorsFilter;
+import com.divide.experience.gateway.filters.PreRequestLogFilter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
@@ -21,8 +21,8 @@ public class GatewayApplication {
     }
 
     @Bean
-    public OptionCORSFilter OptionCORSFilter() {
-        return new OptionCORSFilter();
+    public OptionCorsFilter optionCorsFilter() {
+        return new OptionCorsFilter();
     }
 
 }

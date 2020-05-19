@@ -10,6 +10,11 @@ import java.util.ArrayList;
 public class JwtAuthenticationToken extends AbstractAuthenticationToken {
     private final String token;
 
+    /**
+     * Basic constructor.
+     *
+     * @param token token.
+     */
     public JwtAuthenticationToken(String token) {
         super(new ArrayList<>());
         this.token = token;

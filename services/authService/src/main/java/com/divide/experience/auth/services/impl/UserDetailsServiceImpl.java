@@ -6,13 +6,12 @@ import com.divide.experience.auth.services.UserService;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.HashSet;
 import java.util.Set;
+import javax.annotation.Resource;
 
 /**
  * Created by AOleynikov on 04.06.2019.

@@ -9,9 +9,9 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
-import java.util.List;
 
 /**
  * Created by AOleynikov on 04.01.2019.

@@ -24,3 +24,10 @@ server:
   servlet:
     context-path: /article
   port: 6002
+
+logging:
+  io:
+    swagger:
+      models:
+        parameters:
+          AbstractSerializableParameter: error

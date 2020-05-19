@@ -11,11 +11,11 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 
+import java.io.IOException;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 import static java.util.Optional.ofNullable;
 import static org.apache.commons.lang3.StringUtils.removeStart;
@@ -64,7 +64,5 @@ public class JwtAuthenticationUserFilter extends AbstractAuthenticationProcessin
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
     }
-
-
 
 }

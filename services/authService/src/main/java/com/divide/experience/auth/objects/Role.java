@@ -17,7 +17,7 @@ public enum Role {
         this.codeName = codeName;
     }
 
-    public String getCodeName(){
+    public String getCodeName() {
         return codeName;
     }
 }

@@ -15,10 +15,7 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import javax.annotation.Resource;
-
 import static org.springframework.http.HttpStatus.FORBIDDEN;
-
 
 /**
  * Created by AOleynikov on 11.01.2020.
@@ -30,6 +27,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private JwtAuthenticationTokenProvider jwtProvider;
 
+    @Bean
+    AuthenticationEntryPoint forbiddenEntryPoint() {
+        return new HttpStatusEntryPoint(FORBIDDEN);
+    }
+
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
+
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
         http
@@ -37,8 +45,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/p/**", "/**/p")
                 .authenticated()
                 .and()
-                .addFilterBefore(new JwtAuthenticationUserFilter("/p/**", authenticationManagerBean()), UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(new JwtAuthenticationUserFilter("/**/p", authenticationManagerBean()), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JwtAuthenticationUserFilter("/p/**", authenticationManagerBean()),
+                        UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JwtAuthenticationUserFilter("/**/p", authenticationManagerBean()),
+                        UsernamePasswordAuthenticationFilter.class)
                 .csrf().disable();
     }
 
@@ -47,23 +57,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring();
     }
 
-    @Override
-    @Bean
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }
-
     @Autowired
+    @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(jwtProvider);
     }
 
-    @Bean
-    AuthenticationEntryPoint forbiddenEntryPoint() {
-        return new HttpStatusEntryPoint(FORBIDDEN);
-    }
-
-    @Resource
+    @Autowired
     public void setJwtProvider(JwtAuthenticationTokenProvider jwtProvider) {
         this.jwtProvider = jwtProvider;
     }

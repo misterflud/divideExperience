@@ -12,7 +12,7 @@ import java.util.List;
 public interface ArticleFacade {
 
     /**
-     * Adds article.
+     * Adds a article.
      *
      * @param articleItem This is dto of article.
      * @throws AddingArticleException This is business exception.
@@ -20,7 +20,7 @@ public interface ArticleFacade {
     void addArticle(ArticleItem articleItem) throws AddingArticleException;
 
     /**
-     * Saves article for future redaction (flag 'save' in dataBase will be false).
+     * Saves a article for future redaction (flag 'save' in dataBase will be false).
      *
      * @param articleItem article.
      */
@@ -35,7 +35,7 @@ public interface ArticleFacade {
     List<ArticleItem> getArticles(PaginationParameters pagination);
 
     /**
-     * Gets article.
+     * Gets a article.
      *
      * @param articleId This is id of article.
      * @return DTO of article.
@@ -43,7 +43,7 @@ public interface ArticleFacade {
     ArticleItem getArticle(Integer articleId);
 
     /**
-     * Deletes article.
+     * Deletes a article.
      *
      * @param articleId This is id of article.
      */

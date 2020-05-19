@@ -16,7 +16,6 @@ public interface UserFacade {
      */
     UserItem getUserByEmail(String email);
 
-
     /**
      * Provides confident information about user
      *

@@ -31,7 +31,7 @@ public class JwtAuthenticationTokenProvider implements AuthenticationProvider {
     private String getUserDetailsUrl;
 
     @Value("${security.oauth2.article.jwt.key-value}")
-    private String ARTICLE_SERVICE_SECRET;
+    private String articleServiceSecret;
 
     public JwtAuthenticationTokenProvider() {
     }
@@ -43,7 +43,7 @@ public class JwtAuthenticationTokenProvider implements AuthenticationProvider {
         final RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.add("token", authentication.getName());
-        headers.add(AUTHORIZATION, ARTICLE_SERVICE_SECRET);
+        headers.add(AUTHORIZATION, articleServiceSecret);
         HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
         final ResponseEntity<UserAuthDetails> res = restTemplate.exchange(getUserDetailsUrl, HttpMethod.GET, entity, UserAuthDetails.class);
         if (res.getStatusCode().is2xxSuccessful() && res.getBody() != null) {

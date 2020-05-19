@@ -5,22 +5,26 @@
 
     <artifactId>articleService</artifactId>
     <packaging>jar</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.0.1</version>
     <modelVersion>4.0.0</modelVersion>
     <name>articleService</name>
 
     <parent>
         <artifactId>divideExperience</artifactId>
         <groupId>com.divideExperience</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>0.0.1</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <CONFIG_SERVICE_PASSWORD>111</CONFIG_SERVICE_PASSWORD>
         <java.version>1.8</java.version>
         <postgresql.version>42.2.5</postgresql.version>
-        <CONFIG_SERVICE_PASSWORD>111</CONFIG_SERVICE_PASSWORD>
+        <hibernate.verxion>5.4.0.Final</hibernate.verxion>
+        <hibernate-jpa-api.verxion>1.0.2.Final</hibernate-jpa-api.verxion>
+        <json-path.verxion>2.2.0</json-path.verxion>
+        <rest-assured.verxion>2.9.0</rest-assured.verxion>
         <commons-lang.version>3.9</commons-lang.version>
     </properties>
 
@@ -44,7 +48,7 @@
         <dependency>
             <groupId>com.jayway.jsonpath</groupId>
             <artifactId>json-path</artifactId>
-            <version>2.2.0</version>
+            <version>${json-path.verxion}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -55,7 +59,7 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
-            <version>5.4.0.Final</version>
+            <version>${hibernate.verxion}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -64,12 +68,12 @@
         <dependency>
             <groupId>org.hibernate.javax.persistence</groupId>
             <artifactId>hibernate-jpa-2.1-api</artifactId>
-            <version>1.0.2.Final</version>
+            <version>${hibernate-jpa-api.verxion}</version>
         </dependency>
         <dependency>
             <groupId>com.jayway.restassured</groupId>
             <artifactId>rest-assured</artifactId>
-            <version>2.9.0</version>
+            <version>${rest-assured.verxion}</version>
             <scope>test</scope>
         </dependency>
         <dependency>

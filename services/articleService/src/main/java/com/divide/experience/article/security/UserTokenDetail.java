@@ -10,6 +10,11 @@ public class UserTokenDetail extends AbstractAuthenticationToken {
 
     private String login;
 
+    /**
+     * Basic constructor.
+     *
+     * @param userDetails userDetails.
+     */
     public UserTokenDetail(UserDetails userDetails) {
         super(userDetails.getAuthorities());
         this.login = userDetails.getUsername();

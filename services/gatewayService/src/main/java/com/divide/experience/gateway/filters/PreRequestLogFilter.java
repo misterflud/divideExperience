@@ -1,4 +1,4 @@
-package com.divideExperience.gateway.filters;
+package com.divide.experience.gateway.filters;
 
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
@@ -8,12 +8,15 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 
 import static com.google.common.net.HttpHeaders.AUTHORIZATION;
 
+/**
+ * @author Anton Oleynikov {@literal <yurolejniko@yandex.ru>}
+ */
 public class PreRequestLogFilter extends ZuulFilter {
 
     @Value("${auth.service.http.endpoint.checkToken:http://localhost:7002/auth/checkToken}")
@@ -28,8 +31,9 @@ public class PreRequestLogFilter extends ZuulFilter {
     public Object run() {
         HttpServletRequest request = RequestContext.getCurrentContext().getRequest();
         ArrayList<String> cookies = new ArrayList<>();
-        if (request.getCookies() != null &&  request.getCookies().length != 0) {
-            for (Cookie c : request.getCookies()) { //нужно разобраться с сессией в authService (отправлять копию клиентского запроса, только с другим uri)
+        if (request.getCookies() != null && request.getCookies().length != 0) {
+            //нужно разобраться с сессией в authService (отправлять копию клиентского запроса, только с другим uri)
+            for (Cookie c : request.getCookies()) {
                 cookies.add(String.format("%s=%s", c.getName(), c.getValue()));
             }
         }

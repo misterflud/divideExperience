@@ -4,8 +4,9 @@ import com.divide.experience.auth.converters.NewUserMapper;
 import com.divide.experience.auth.facades.RegistrationFacade;
 import com.divide.experience.auth.objects.transport.NewUserItem;
 import com.divide.experience.auth.services.RegistrationService;
-import javax.annotation.Resource;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
 
 /**
  * Created by AOleynikov on 27.05.2019.
