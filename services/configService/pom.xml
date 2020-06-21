@@ -18,7 +18,7 @@
 
     <properties>
         <CONFIG_SERVICE_PASSWORD>111</CONFIG_SERVICE_PASSWORD>
-        <spring.cloud.version>2.0.1.RELEASE</spring.cloud.version>
+        <spring.cloud.version>2.0.5.RELEASE</spring.cloud.version>
     </properties>
 
     <dependencies>
