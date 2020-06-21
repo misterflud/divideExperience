@@ -12,12 +12,12 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import java.io.IOException;
+import java.util.Base64;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.Base64;
 
 import static com.google.common.net.HttpHeaders.AUTHORIZATION;
 import static java.util.Optional.ofNullable;
@@ -43,9 +43,7 @@ public class LoginAuthenticationFilter extends AbstractAuthenticationProcessingF
     }
 
     @Override
-    public Authentication attemptAuthentication(
-            final HttpServletRequest request,
-            final HttpServletResponse response) {
+    public Authentication attemptAuthentication(final HttpServletRequest request, final HttpServletResponse response) {
         String headerValue = ofNullable(request.getHeader(AUTHORIZATION))
                 .orElse(request.getParameter("t"));
         if (headerValue == null || !headerValue.startsWith(BASIC) || headerValue.length() == AUTHORIZATION.length()) {
@@ -59,11 +57,8 @@ public class LoginAuthenticationFilter extends AbstractAuthenticationProcessingF
     }
 
     @Override
-    protected void successfulAuthentication(
-            final HttpServletRequest request,
-            final HttpServletResponse response,
-            final FilterChain chain,
-            final Authentication authResult) throws IOException, ServletException {
+    protected void successfulAuthentication(final HttpServletRequest request, final HttpServletResponse response,
+            final FilterChain chain, final Authentication authResult) throws IOException, ServletException {
         String login = ((User) authResult.getPrincipal()).getUsername();
         String token = tokenProcessor.generateToken(login);
         SecurityContext context = SecurityContextHolder.createEmptyContext();
@@ -73,10 +68,8 @@ public class LoginAuthenticationFilter extends AbstractAuthenticationProcessingF
     }
 
     @Override
-    protected void unsuccessfulAuthentication(HttpServletRequest req,
-                                              HttpServletResponse res,
-                                              AuthenticationException failed)
-            throws IOException, ServletException {
+    protected void unsuccessfulAuthentication(HttpServletRequest req, HttpServletResponse res,
+                                              AuthenticationException failed) throws IOException, ServletException {
         super.unsuccessfulAuthentication(req, res, failed);
     }
 }

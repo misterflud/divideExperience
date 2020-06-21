@@ -2,18 +2,19 @@ package com.divide.experience.auth.converters;
 
 import com.divide.experience.auth.objects.domain.Model;
 import com.divide.experience.auth.objects.transport.Item;
-import java.util.Objects;
-import javax.annotation.Resource;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
+
+import java.util.Objects;
+import javax.annotation.Resource;
 
 /**
  * Created by AOleynikov on 29.05.2019.
  *
- * For simple conversation current library (model mapper) easy solving,
+ *<p>For simple conversation current library (model mapper) easy solving,
  * but for other things you should add custom mapper or write converters.
  */
-public abstract class AbstractMapper <M extends Model, I extends Item> implements Mapper<M, I>{
+public abstract class AbstractMapper<M extends Model, I extends Item> implements Mapper<M, I> {
 
     private ModelMapper mapper;
 

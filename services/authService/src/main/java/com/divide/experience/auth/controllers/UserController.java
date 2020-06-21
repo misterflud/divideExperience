@@ -4,17 +4,22 @@ import com.divide.experience.auth.facades.RegistrationFacade;
 import com.divide.experience.auth.facades.UserFacade;
 import com.divide.experience.auth.objects.transport.NewUserItem;
 import com.divide.experience.auth.objects.transport.UserItem;
-import javax.annotation.Resource;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.Resource;
 
 /**
  * Created by AOleynikov on 21.05.2019.
  * Adds new user.
  */
 @RestController
+@Api(value = "Process operations with user in a public access.",
+        tags = "UserController")
 public class UserController {
 
     private RegistrationFacade registrationFacade;
@@ -27,6 +32,7 @@ public class UserController {
      * @param newUserItem dto.
      * @return result, in future adds container like Result.
      */
+    @ApiOperation(value = "Registers new user")
     @RequestMapping(value = "/registration", method = RequestMethod.POST, produces = "application/json")
     public boolean registrationUser(@RequestBody NewUserItem newUserItem) {
         registrationFacade.registrationUser(newUserItem);

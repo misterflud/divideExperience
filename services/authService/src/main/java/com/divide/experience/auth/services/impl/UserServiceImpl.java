@@ -4,10 +4,10 @@ import com.divide.experience.auth.dao.services.UserDao;
 import com.divide.experience.auth.objects.domain.UserModel;
 import com.divide.experience.auth.security.JwtTokenProcessor;
 import com.divide.experience.auth.services.UserService;
-import javax.annotation.Resource;
-
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
 
 /**
  * Created by AOleynikov on 28.05.2019.

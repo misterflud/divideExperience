@@ -1,7 +1,8 @@
-package com.divideExperience.gateway.filters;
+package com.divide.experience.gateway.filters;
 
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -10,15 +11,14 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 /**
  * @author Anton Oleynikov {@literal <yurolejniko@yandex.ru>}
  */
 @Component
-public class CORSFilter implements Filter {
+public class CorsFilter implements Filter {
 
-    public CORSFilter() {
+    public CorsFilter() {
 
     }
 

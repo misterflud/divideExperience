@@ -22,8 +22,8 @@ import java.util.List;
 public class ServerStaticResourceStrategy implements StaticResourceStrategy {
 
     // 6 MByte
-    private int MAX_FILE_SIZE = 6291456;
-    private int MAX_FILES_FOR_ARTICLE = 7;
+    private static final int MAX_FILE_SIZE = 6291456;
+    private static final int MAX_FILES_FOR_ARTICLE = 7;
 
     private static final String base_uri = "article/static/s/%s/%s";
     private static final String revert_line = "article/static/s/%s/";

@@ -1,4 +1,4 @@
-package com.divideExperience.gateway.filters;
+package com.divide.experience.gateway.filters;
 
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * @author Anton Oleynikov {@literal <yurolejniko@yandex.ru>}
  */
-public class OptionCORSFilter extends ZuulFilter {
+public class OptionCorsFilter extends ZuulFilter {
 
     @Override
     public String filterType() {

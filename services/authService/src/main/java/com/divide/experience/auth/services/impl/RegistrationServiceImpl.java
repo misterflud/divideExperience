@@ -18,7 +18,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 
     private PasswordEncoder passwordEncoder;
 
-
+    @Override
     public void registrationUser(UserModel userModel, String password) {
         if (!checkExistingUser(userModel.getEmail())) {
             userModel.setPassword(passwordEncoder.encode(password));

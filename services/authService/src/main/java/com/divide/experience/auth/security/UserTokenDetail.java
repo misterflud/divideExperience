@@ -16,6 +16,11 @@ public class UserTokenDetail extends AbstractAuthenticationToken {
 
     private String login;
 
+    /**
+     * This is a constructor for configuring spring user detail.
+     *
+     * @param userDetails user detail.
+     */
     public UserTokenDetail(UserDetails userDetails) {
         super(new ArrayList<>());
         this.login = userDetails.getUsername();

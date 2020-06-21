@@ -21,15 +21,15 @@ public class JwtTokenProcessor implements TokenProcessor {
 
 
     @Value("${security.oauth2.web.jwt.key-value}")
-    private String SECRET;
+    private String secret;
 
     @Value("${security.oauth2.article.jwt.key-value}")
-    private String ARTICLE_SERVICE_SECRET;
+    private String articleServiceSecret;
 
     @Override
     public String getUserFromToken(String token) {
         if (token != null) {
-            Claims body = Jwts.parser().setSigningKey(SECRET).parseClaimsJws(token).getBody();
+            Claims body = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
             String login = body.get(LOGIN_FIELD, String.class);
             return login;
         }
@@ -40,17 +40,17 @@ public class JwtTokenProcessor implements TokenProcessor {
     public String generateToken(String login) {
         Claims claims = Jwts.claims().setSubject(login);
         claims.put(LOGIN_FIELD, login);
-        String JWT = Jwts.builder()
+        String jwt = Jwts.builder()
                 .setClaims(claims)
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATIONTIME))
-                .signWith(SignatureAlgorithm.HS512, SECRET)
+                .signWith(SignatureAlgorithm.HS512, secret)
                 .compact();
-        return JWT;
+        return jwt;
     }
 
     @Override
     public UserDetails getUserDetailsForService(String token) {
-        if (token.equals(ARTICLE_SERVICE_SECRET)) {
+        if (token.equals(articleServiceSecret)) {
             return new org.springframework.security.core.userdetails.User(
                     "ARTICLE_SERVICE",
                     "",

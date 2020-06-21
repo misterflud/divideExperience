@@ -2,9 +2,9 @@ package com.divide.experience.auth.config;
 
 import com.divide.experience.auth.filters.JwtAuthenticationServiceFilter;
 import com.divide.experience.auth.filters.JwtAuthenticationUserFilter;
+import com.divide.experience.auth.filters.LoginAuthenticationFilter;
 import com.divide.experience.auth.security.JwtAuthenticationTokenProvider;
 import com.divide.experience.auth.security.JwtTokenProcessor;
-import com.divide.experience.auth.filters.LoginAuthenticationFilter;
 import com.divide.experience.auth.services.impl.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -47,9 +47,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/oauth/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .addFilterBefore(new LoginAuthenticationFilter("/login", authenticationManagerBean(), jwtTokenProcessor), UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(new JwtAuthenticationUserFilter("/checkToken", authenticationManagerBean()), UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(new JwtAuthenticationServiceFilter("/user_details", authenticationManagerBean()), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new LoginAuthenticationFilter("/login", authenticationManagerBean(), jwtTokenProcessor),
+                        UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JwtAuthenticationUserFilter("/checkToken", authenticationManagerBean()),
+                        UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JwtAuthenticationServiceFilter("/user_details", authenticationManagerBean()),
+                        UsernamePasswordAuthenticationFilter.class)
                 .csrf().disable();
     }
 
@@ -58,18 +61,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring();
     }
 
-    @Override
-    @Bean
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }
-
     @Autowired
+    @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
                 .authenticationProvider(jwtProvider)
                 .userDetailsService(userDetailsService)
                 .passwordEncoder(passwordEncoder()); // for login
+    }
+
+    @Override
+    @Bean
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
     }
 
     @Bean

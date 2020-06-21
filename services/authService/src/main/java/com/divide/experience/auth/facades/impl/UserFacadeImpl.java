@@ -5,8 +5,9 @@ import com.divide.experience.auth.facades.UserFacade;
 import com.divide.experience.auth.objects.transport.UserAuthDetails;
 import com.divide.experience.auth.objects.transport.UserItem;
 import com.divide.experience.auth.services.UserService;
-import javax.annotation.Resource;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
 
 /**
  * Created by AOleynikov on 30.05.2019.

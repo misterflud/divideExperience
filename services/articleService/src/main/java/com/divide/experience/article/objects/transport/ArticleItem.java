@@ -1,20 +1,31 @@
 package com.divide.experience.article.objects.transport;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import java.io.Serializable;
 
 /**
  * Created by AOleynikov on 02.01.2019.
  */
+@ApiModel(description = "This is the main transport object for Article. It can contain null fields.")
 public abstract class ArticleItem implements Serializable {
 
+    private static final long serialVersionUID = 8493721504926217113L;
+
+    @ApiModelProperty("This id is corresponded with id from data base")
     private Integer id;
 
+    @ApiModelProperty("Title of article")
     private String title;
 
+    @ApiModelProperty("Main text of article (with links to static data")
     private String body;
 
+    @ApiModelProperty("Date of any action")
     private String date;
 
+    @ApiModelProperty("Author of this article. Sometimes, it's unnecessary")
     private AuthorItem authorItem;
 
     public Integer getId() {

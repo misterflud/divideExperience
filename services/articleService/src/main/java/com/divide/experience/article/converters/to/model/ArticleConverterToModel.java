@@ -13,10 +13,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class ArticleConverterToModel implements Converter<ArticleItem, ArticleModel> {
 
-    @Autowired
-    private AuthorConverterToModel authorConverterToModel;
-
-    @Autowired
     private AuthorService authorService;
 
     /** Converts to model. */
@@ -28,5 +24,10 @@ public class ArticleConverterToModel implements Converter<ArticleItem, ArticleMo
         articleModel.setId(userArticleItem.getId());
         articleModel.setAuthorModel(authorService.getAuthorByEmail(userArticleItem.getAuthorItem().getEmail()));
         return articleModel;
+    }
+
+    @Autowired
+    public void setAuthorService(AuthorService authorService) {
+        this.authorService = authorService;
     }
 }

@@ -2,11 +2,12 @@ package com.divide.experience.article.dao.services.impl;
 
 import com.divide.experience.article.dao.services.AuthorDao;
 import com.divide.experience.article.objects.domain.AuthorModel;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceUnit;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
+
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceUnit;
 
 /**
  * Created by AOleynikov on 04.01.2019.

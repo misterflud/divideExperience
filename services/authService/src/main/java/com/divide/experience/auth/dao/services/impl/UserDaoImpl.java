@@ -2,11 +2,12 @@ package com.divide.experience.auth.dao.services.impl;
 
 import com.divide.experience.auth.dao.services.UserDao;
 import com.divide.experience.auth.objects.domain.UserModel;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceUnit;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Component;
+
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceUnit;
 
 /**
  * Created by AOleynikov on 21.05.2019.

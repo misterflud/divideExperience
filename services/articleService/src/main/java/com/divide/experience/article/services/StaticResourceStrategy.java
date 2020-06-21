@@ -8,11 +8,11 @@ import java.util.List;
 
 /**
  * @author Anton Oleynikov {@literal <yurolejniko@yandex.ru>}
- *
- * Main interface for each storage wrapper class.
- * In future move it to individual microservice.
+ *      The main interface for the each storage wrapper class.
+ *      In future move it to an individual microservice.
  */
 public interface StaticResourceStrategy {
+
     /**
      * Generates uri from params.
      *
@@ -53,8 +53,8 @@ public interface StaticResourceStrategy {
     /**
      * Get uri list static source from article.
      *
-     * @param articleModel
-     * @return
+     * @param articleModel article.
+     * @return list of static source DTOs.
      */
     List<StaticSource> getListStaticsFromArticle(ArticleModel articleModel);
 }

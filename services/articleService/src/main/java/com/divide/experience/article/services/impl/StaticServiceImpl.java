@@ -44,7 +44,7 @@ public class StaticServiceImpl implements StaticService {
         if (userDetails != null) {
             AuthorModel author = authorDao.getAuthorByEmail(userDetails.getUsername());
             map.get(TypeStaticResourceStrategy.SERVER.getBeanName())
-                    .deleteStaticSource(nameSource, articleDao.getNotSavedArticle(author)); 
+                    .deleteStaticSource(nameSource, articleDao.getNotSavedArticle(author));
         }
     }
 
