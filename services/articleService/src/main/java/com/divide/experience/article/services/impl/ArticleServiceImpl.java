@@ -3,6 +3,7 @@ package com.divide.experience.article.services.impl;
 import com.divide.experience.article.dao.services.ArticleDao;
 import com.divide.experience.article.dao.services.AuthorDao;
 import com.divide.experience.article.exceptions.AddingArticleException;
+import com.divide.experience.article.exceptions.NoSuchAuthorException;
 import com.divide.experience.article.objects.PaginationParameters;
 import com.divide.experience.article.objects.domain.ArticleModel;
 import com.divide.experience.article.objects.domain.AuthorModel;
@@ -67,7 +68,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public ArticleModel generateNewArticle() {
+    public ArticleModel generateNewArticle() throws NoSuchAuthorException {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getDetails();
         if (userDetails != null) {
             AuthorModel author = authorDao.getAuthorByEmail(userDetails.getUsername());
@@ -83,7 +84,7 @@ public class ArticleServiceImpl implements ArticleService {
                 }
             }
         }
-        return null;
+        throw new NoSuchAuthorException();
     }
 
     @Autowired

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet id="fill-usr-table" author="yurolejniko@yandex.ru" logicalFilePath="changelog-1.0" context="prod">
+        <insert tableName="USR">
+            <column name="EMAIL" value="yurolejniko@yandex.ru"/>
+            <column name="NICK_NAME" value="misterflud"/>
+            <column name="FIRST_NAME" value="Anton"/>
+            <column name="SECOND_NAME" value="Anton"/>
+            <column name="THIRD_NAME" value="Anton"/>
+            <column name="DATE_OF_REGISTRATION" valueDate="current_datetime"/>
+            <column name="ROLE" value="4"/>
+            <column name="PASSWORD" value="$2a$10$uDZNEGZlppGz67AlrlPf9OmgLqjhvK52VM7uS.T8aXyKqE7n9pupu"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

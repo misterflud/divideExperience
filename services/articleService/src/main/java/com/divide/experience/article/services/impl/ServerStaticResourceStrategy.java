@@ -4,6 +4,7 @@ import com.divide.experience.article.objects.domain.ArticleModel;
 import com.divide.experience.article.objects.transport.StaticSource;
 import com.divide.experience.article.objects.transport.TypeOfStaticSource;
 import com.divide.experience.article.services.StaticResourceStrategy;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -27,7 +28,9 @@ public class ServerStaticResourceStrategy implements StaticResourceStrategy {
 
     private static final String base_uri = "article/static/s/%s/%s";
     private static final String revert_line = "article/static/s/%s/";
-    private static final String base_path = "C:/Users/user/Desktop/divide_exp/%s/%s/%s";
+
+    @Value("${article_service.static_source.base_path}")
+    private String basePath;
     private static final String pattern = "MM_yyyy";
 
     @Override
@@ -83,7 +86,7 @@ public class ServerStaticResourceStrategy implements StaticResourceStrategy {
         LocalDate localDate = articleModel.getDate().toInstant().atZone(ZoneId.of("UTC")).toLocalDate();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
         String date = localDate.format(formatter);
-        return String.format(base_path,
+        return String.format(basePath,
                 articleModel.getAuthorModel().getId(),
                 date,
                 articleModel.getId().toString());

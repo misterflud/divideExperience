@@ -1,6 +1,7 @@
 package com.divide.experience.article.services;
 
 import com.divide.experience.article.exceptions.AddingArticleException;
+import com.divide.experience.article.exceptions.NoSuchAuthorException;
 import com.divide.experience.article.objects.PaginationParameters;
 import com.divide.experience.article.objects.domain.ArticleModel;
 
@@ -50,5 +51,5 @@ public interface ArticleService {
      *
      * @return empty article with id.
      */
-    ArticleModel generateNewArticle();
+    ArticleModel generateNewArticle() throws NoSuchAuthorException;
 }

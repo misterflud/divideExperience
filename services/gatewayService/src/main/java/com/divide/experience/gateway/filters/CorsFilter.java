@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author Anton Oleynikov {@literal <yurolejniko@yandex.ru>}
  */
 @Component
+@SuppressWarnings("VariableDeclarationUsageDistance")
 public class CorsFilter implements Filter {
 
     public CorsFilter() {
@@ -33,7 +34,11 @@ public class CorsFilter implements Filter {
         response.setHeader("Access-Control-Max-Age", "3600");
         response.setHeader("Access-Control-Allow-Headers", "*");
         response.setHeader("Access-Control-Expose-Headers", "Authorization");
-        chain.doFilter(req, res);
+        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+            response.setStatus(HttpServletResponse.SC_OK);
+        } else {
+            chain.doFilter(req, res);
+        }
     }
 
     @Override

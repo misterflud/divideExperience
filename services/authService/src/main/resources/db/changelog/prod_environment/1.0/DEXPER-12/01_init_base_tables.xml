@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet id="create-usr-table" author="yurolejniko@yandex.ru" logicalFilePath="changelog-1.0" context="prod">
+        <createTable tableName="USR">
+            <column autoIncrement="true" name="USER_ID" type="SERIAL">
+                <constraints primaryKey="true" primaryKeyName="author_pkey" nullable="false"/>
+            </column>
+            <column name="EMAIL" type="VARCHAR(300)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="NICK_NAME" type="VARCHAR(300)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="FIRST_NAME" type="VARCHAR(300)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="SECOND_NAME" type="VARCHAR(300)"/>
+            <column name="THIRD_NAME" type="VARCHAR(300)"/>
+            <column name="DATE_OF_REGISTRATION" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ROLE" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PASSWORD" type="VARCHAR(5000)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

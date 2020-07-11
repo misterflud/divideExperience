@@ -1,6 +1,7 @@
 package com.divide.experience.article.facades;
 
 import com.divide.experience.article.exceptions.AddingArticleException;
+import com.divide.experience.article.exceptions.NoSuchAuthorException;
 import com.divide.experience.article.objects.PaginationParameters;
 import com.divide.experience.article.objects.transport.ArticleItem;
 
@@ -54,5 +55,5 @@ public interface ArticleFacade {
      *
      * @return article with id.
      */
-    ArticleItem generateAllForArticle();
+    ArticleItem generateAllForArticle() throws NoSuchAuthorException;
 }

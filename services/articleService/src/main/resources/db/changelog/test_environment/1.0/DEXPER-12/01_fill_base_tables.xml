@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet id="fill-author-table" author="yurolejniko@yandex.ru" logicalFilePath="changelog-1.0" context="test">
+        <insert tableName="AUTHOR">
+            <column name="EMAIL" value="yurolejniko@yandex.ru"/>
+            <column name="NICK_NAME" value="misterflud"/>
+            <column name="FIRST_NAME" value="Anton"/>
+            <column name="SECOND_NAME" value="Anton"/>
+            <column name="THIRD_NAME" value="Anton"/>
+            <column name="DATE_OF_REGISTRATION" valueDate="current_datetime"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

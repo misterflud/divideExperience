@@ -1,6 +1,7 @@
 package com.divide.experience.article.controllers;
 
 import com.divide.experience.article.exceptions.AddingArticleException;
+import com.divide.experience.article.exceptions.NoSuchAuthorException;
 import com.divide.experience.article.facades.ArticleFacade;
 import com.divide.experience.article.objects.PaginationParameters;
 import com.divide.experience.article.objects.transport.ArticleItem;
@@ -82,7 +83,7 @@ public class ArticleController {
 
     @ApiOperation(value = "Gets a new empty article (with id).", tags = "protect_resource")
     @GetMapping(value = "/p/write_article", produces = "application/json")
-    public ArticleItem writeArticle() {
+    public ArticleItem writeArticle() throws NoSuchAuthorException {
         return articleFacade.generateAllForArticle();
     }
 

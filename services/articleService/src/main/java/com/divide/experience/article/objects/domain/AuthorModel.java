@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
@@ -23,9 +24,13 @@ import javax.persistence.Table;
                 query = "select a from AuthorModel a where a.email = :email")
 })
 public class AuthorModel implements Serializable {
+
+    private static final long serialVersionUID = 4355447490223112884L;
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "author_author_id_seq")
+    @SequenceGenerator(name = "author_author_id_seq", sequenceName = "author_author_id_seq")
+    @Column(name = "AUTHOR_ID")
     private Integer id;
 
     @Column(name = "EMAIL")

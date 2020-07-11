@@ -31,6 +31,7 @@ import java.util.List;
  */
 @EnableSwagger2
 @Import(springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration.class)
+@SuppressWarnings("lineLength")
 @Configuration
 public class SwaggerAndSpringFoxConfig {
     private static final String DEFAULT_INCLUDE_PATTERN = "/p/.*";
@@ -46,9 +47,8 @@ public class SwaggerAndSpringFoxConfig {
                 .securityContexts(Lists.newArrayList(securityContext()))
                 .securitySchemes(Lists.newArrayList(apiKey()))
                 .useDefaultResponseMessages(false)
-                .tags(new Tag("ArticleController", "Contains operation with articles."),
-                        new Tag("AuthorController", "Contains operation with authors."),
-                        new Tag("StaticController", "Contains operation with static sources."),
+                .tags(new Tag("UserController", "Process operations with user in a public access."),
+                        new Tag("AuthorisationController", "It contains operations for authorization (including cross authorization services)."),
                         new Tag("protect_resource", "These are protected resources, you should use auth key for access then.")
                 );
     }
