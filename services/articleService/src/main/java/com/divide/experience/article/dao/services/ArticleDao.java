@@ -50,7 +50,7 @@ public interface ArticleDao {
     void deleteArticle(Integer articleId);
 
     /**
-     *
+     * Gets not saved article.
      *
      * @param authorModel article.
      * @return article.

@@ -24,7 +24,7 @@ public class RegistrationServiceImpl implements RegistrationService {
             userModel.setPassword(passwordEncoder.encode(password));
             userDao.addUser(userModel);
         } else {
-            //TODO: throw exception if user already exist (add handler exception)
+            //TODO: throw exception if user already exist (adds handler exception)
         }
     }
 

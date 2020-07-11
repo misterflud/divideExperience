@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: articleService
+  datasource:
+    platform: postgres
+    url: jdbc:postgresql://localhost:5432/divide_experience?currentSchema=article_service
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  liquibase:
+    contexts: test, prod
+
+article_service:
+  static_source:
+    base_path: /home/anton/projects/divide_experience/static/%s/%s/%s

@@ -1,18 +1,19 @@
 package com.divide.experience.auth.objects.domain;
 
 import com.divide.experience.auth.objects.Role;
+import com.divide.experience.auth.objects.RoleEnumConverter;
 
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
@@ -29,34 +30,38 @@ import javax.persistence.Table;
                 query = "select a from UserModel a where a.nickName = :nickName"),
 })
 public class UserModel extends Model implements Serializable {
+
+    private static final long serialVersionUID = -2583341696584839343L;
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "usr_user_id_seq")
+    @SequenceGenerator(name = "usr_user_id_seq", sequenceName = "usr_user_id_seq")
+    @Column(name = "USER_ID")
     private Long id;
 
-    @Column(name = "email", unique = true)
+    @Column(name = "EMAIL", unique = true)
     private String email;
 
-    @Column(name = "nick_name", unique = true)
+    @Column(name = "NICK_NAME", unique = true)
     private String nickName;
 
-    @Column(name = "first_name")
+    @Column(name = "FIRST_NAME")
     private String firstName;
 
-    @Column(name = "second_name")
+    @Column(name = "SECOND_NAME")
     private String secondName;
 
-    @Column(name = "third_name")
+    @Column(name = "THIRD_NAME")
     private String thirdName;
 
-    @Column(name = "date_of_registration")
+    @Column(name = "DATE_OF_REGISTRATION")
     private Date dateOfRegistration;
 
-    @Column(name = "role")
-    @Enumerated(EnumType.STRING)
+    @Column(name = "ROLE")
+    @Convert(converter = RoleEnumConverter.class)
     private Role role;
 
-    @Column(name = "password")
+    @Column(name = "PASSWORD")
     private String password;
 
     public Long getId() {

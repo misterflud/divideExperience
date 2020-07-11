@@ -27,7 +27,10 @@ public class ArticleDaoImpl implements ArticleDao {
     @Override
     public ArticleModel addArticle(ArticleModel articleModel) {
         try (Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession()) {
+
+            Transaction tx = session.beginTransaction();
             session.saveOrUpdate(articleModel);
+            tx.commit();
             return articleModel;
         }
     }

@@ -5,19 +5,25 @@ package com.divide.experience.auth.objects;
  */
 public enum Role {
 
-    ANON("ANON"),
-    USER("USER"),
-    AUTHOR("AUTHOR"),
-    MODERATOR("MODERATOR"),
-    ADMINISTRATOR("ADMINISTRATOR");
+    ANON("ANON", 0),
+    USER("USER", 1),
+    AUTHOR("AUTHOR", 2),
+    MODERATOR("MODERATOR", 3),
+    ADMINISTRATOR("ADMINISTRATOR", 4);
 
-    String codeName;
+    private final String name;
+    private final int code;
 
-    Role(String codeName) {
-        this.codeName = codeName;
+    Role(String name, int code) {
+        this.name = name;
+        this.code = code;
     }
 
-    public String getCodeName() {
-        return codeName;
+    public String getName() {
+        return name;
+    }
+
+    public int getCode() {
+        return code;
     }
 }

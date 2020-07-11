@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <preConditions>
+        <dbms type="postgresql"/>
+    </preConditions>
+
+<!--    TODO: delete context in change sets after resolving the issue https://github.com/liquibase/liquibase/issues/1243 -->
+    <include file="prod_environment/changelog-prod.xml" relativeToChangelogFile="true" context="prod"/>
+    <include file="test_environment/changelog-test.xml" relativeToChangelogFile="true" context="test"/>
+
+</databaseChangeLog>

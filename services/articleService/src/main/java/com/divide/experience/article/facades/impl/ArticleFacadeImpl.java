@@ -3,6 +3,7 @@ package com.divide.experience.article.facades.impl;
 import com.divide.experience.article.converters.to.item.ArticleConverterToItem;
 import com.divide.experience.article.converters.to.model.ArticleConverterToModel;
 import com.divide.experience.article.exceptions.AddingArticleException;
+import com.divide.experience.article.exceptions.NoSuchAuthorException;
 import com.divide.experience.article.facades.ArticleFacade;
 import com.divide.experience.article.objects.PaginationParameters;
 import com.divide.experience.article.objects.transport.ArticleItem;
@@ -51,7 +52,7 @@ public class ArticleFacadeImpl implements ArticleFacade {
     }
 
     @Override
-    public ArticleItem generateAllForArticle() {
+    public ArticleItem generateAllForArticle() throws NoSuchAuthorException {
         return articleConverterToItem.convert(articleService.generateNewArticle());
     }
 
