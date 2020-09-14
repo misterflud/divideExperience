@@ -1,0 +1,91 @@
+#  https://www.rechberger.io/tutorial-install-docker-using-ansible-on-a-remote-server/
+- name: Update apt packages
+  apt:
+    update_cache: "yes"
+    force_apt_get: "yes"
+  tags:
+    - install_docker
+
+- name: Install packages needed for Docker
+  apt:
+    name: "{{ DOCKER_PACKAGES }}"
+    state: present
+    force_apt_get: "yes"
+  tags:
+    - install_docker
+
+- name: Add Docker GPG apt Key
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+  tags:
+    - install_docker
+
+- name: Save the current Ubuntu release version into a variable
+  shell: lsb_release -cs
+  register: ubuntu_version
+  tags:
+    - install_docker
+
+- name: Add Docker Repository
+  apt_repository:
+    repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ubuntu_version.stdout }} stable"
+    state: present
+  tags:
+    - install_docker
+
+- name: Update apt packages
+  apt:
+    update_cache: "yes"
+    force_apt_get: "yes"
+  tags:
+    - install_docker
+
+- name: Install Docker
+  apt:
+    name: "docker-ce"
+    state: present
+    force_apt_get: "yes"
+  tags:
+    - install_docker
+
+#- name: Show output of hello word example
+#  debug:
+#    msg: "Container Output: {{hello_world_output.stdout}}"
+#  tags:
+#    - install_docker
+
+- name: Create docker group
+  group:
+    name: "docker"
+    state: present
+  tags:
+    - install_docker
+
+- name: Adding user {{ main_user.login }} to docker group
+  user:
+    name: "{{ main_user.login }}"
+    groups: "docker"
+    append: "yes"
+  tags:
+    - install_docker
+
+#- name: Install required system packages
+#  apt: state=latest update_cache=yes
+#  loop: [ 'apt-transport-https', 'ca-certificates', 'curl', 'software-properties-common', 'python3-pip', 'virtualenv', 'python3-setuptools']
+#  tags:
+#    - install_docker
+#    - install_docker_py
+
+- name: install pip3
+  apt: name=python3-pip state=present
+  tags:
+    - install_docker
+    - install_docker_py
+
+- name: Install certain python modules for docker
+  pip:
+    name: docker
+  tags:
+    - install_docker
+    - install_docker_py

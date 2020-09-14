@@ -1,0 +1,85 @@
+---
+- name: Creates directories
+  file: path="{{item}}" state=directory owner="root" group="root" mode="775"
+  with_items:
+    - "{{ auth_role.folder }}/data"
+    - "{{ auth_role.folder }}/files"
+    - "{{ auth_role.folder }}/logs"
+  tags:
+    - deploy_auth_service
+
+- name:  Docker logout
+  become: true
+  docker_login:
+    state: absent
+    username: "{{ docker.username }}"
+  tags:
+    - deploy_auth_service
+    - create_auth_service_image
+
+- name:  Docker auth login
+  become: true
+  docker_login:
+    username: "{{ docker.username }}"
+    password: "{{ docker.password }}"
+  tags:
+    - deploy_auth_service
+    - create_auth_service_image
+
+- name: A docker stops and rm div_auth_service
+  docker_container:
+    name: div_auth_service
+    state: absent
+  tags:
+    - deploy_auth_service
+
+- name: Build jar file (Just for local usage)
+  shell:
+    chdir: "{{ source_folder }}/{{ auth_role.path_to_docker_file }}"
+    cmd: mvn clean package
+  tags:
+    - create_auth_service_image
+
+- name: Remove image div_auth_service  (Just for local usage)
+  docker_image:
+    state: absent
+    name: "{{ docker.registry_path }}"
+    tag: div_auth_service_latest
+    force: "yes"
+  tags:
+    - delete_auth_service_image
+    - create_auth_service_image
+
+- name: Create a new image (Just for local usage)
+  docker_image:
+    path: "{{ source_folder }}/{{ auth_role.path_to_docker_file }}"
+    name: "{{ docker.registry_path }}"
+    tag: div_auth_service_latest
+    push: "yes"
+    nocache: "yes"
+  tags:
+    - create_auth_service_image
+
+- name: A docker starts div_auth_service
+  docker_container:
+    name: div_auth_service
+    image: "{{ docker.registry_path }}:{{ auth_service_version }}"
+    pull: "yes"
+    restart_policy: "always"
+    network_mode: "host"
+    volumes:
+      - "{{ auth_role.folder }}/data:{{ auth_role.folder }}/data"
+      - "{{ auth_role.folder }}/files:{{ auth_role.folder }}/files"
+      - "{{ auth_role.folder }}/logs:{{ auth_role.folder }}/logs"
+#    ports:
+#      - "{{ auth_role.host_port }}:{{ auth_role.container_port }}"
+    env:
+      PROFILE: "{{ env }}"
+      ENV_DOCKER_HOST_IP: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
+      ENV_DOCKER_HOST_PORT: "{{ auth_role.host_port }}"
+      ENV_EUREKA_DEFAULT_ZONE: "{{ ENV_EUREKA_DEFAULT_ZONE }}"
+      JAVA_TOOL_OPTIONS: "{{ auth_role.java_tool_options }}"
+      encrypt.key: "{{ secret_key }}"
+    state: started
+  tags:
+    - deploy_auth_service

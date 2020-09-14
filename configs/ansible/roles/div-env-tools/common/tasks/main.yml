@@ -1,0 +1,52 @@
+---
+- name: Create user -- {{ main_user.login }}
+  user:
+    name: "{{ main_user.login }}"
+    password: "{{ main_user.password | password_hash('sha512') }}"
+    groups:
+      #    - root
+      - sudo
+  tags:
+    - create_new_user
+
+- name: Add ssh pub key to server for -- root
+  authorized_key:
+    user: "root"
+    state: present
+    key: "{{ lookup('file', '/home/anton/projects/divide_experience/divideExperience/configs/ansible/roles/div-env-tools/common/template/ssh_key/id_rsa.pub') }}"
+  tags:
+    - add_ssh
+
+- name: Add ssh pub key to server for -- {{ main_user.login }}
+  authorized_key:
+    user: "{{ main_user.login }}"
+    state: present
+    key: "{{ lookup('file', '/home/anton/projects/divide_experience/divideExperience/configs/ansible/roles/div-env-tools/common/template/ssh_key/id_rsa.pub') }}"
+  tags:
+    - add_ssh
+
+- name: Enable firewall
+  shell: |
+    sudo ufw disable
+    sudo iptables -F
+
+    ufw route allow proto tcp from any to any port 80
+    ufw allow proto tcp from any to "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}" port 8000
+    ufw allow proto tcp from any to "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}" port 8080
+    ufw allow proto tcp from any to "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}" port 10000
+    ufw allow proto tcp from any to "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}" port 5432
+
+    sudo ufw enable
+    sudo systemctl restart docker
+  tags:
+    - firewall
+
+# It's very dangerous command via ssh -- you can lose control after INPUT DROP/ Try to use together 2 command: INPUT DROP and -A INPUT -m multiport --dports 22 -j ACCEPT
+# After reloading server you should execute this script again.
+- name: configuration server port
+  shell: |
+    iptables -A INPUT -p tcp -m tcp -m multiport ! --dports 80,443,22,10000 -j DROP &&
+    iptables -P OUTPUT ACCEPT
+  tags:
+    - configuration_server_port
+

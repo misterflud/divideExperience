@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet id="create-usr-role-table" author="yurolejniko@yandex.ru" logicalFilePath="changelog-1.0" context="prod">
+        <createTable tableName="USER_ROLE">
+            <column autoIncrement="true" name="USER_ROLE_ID" type="SERIAL">
+                <constraints primaryKey="true" primaryKeyName="user_role_pkey" nullable="false"/>
+            </column>
+            <column name="ROLE_NAME" type="VARCHAR(1000)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="ROLE_DESCRIPTION" type="VARCHAR(1000)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="fill-usr-role-table" author="yurolejniko@yandex.ru" logicalFilePath="changelog-1.0" context="prod">
+        <insert tableName="USER_ROLE">
+            <column name="ROLE_NAME" value="super_admin"/>
+        </insert>
+        <insert tableName="USER_ROLE">
+            <column name="ROLE_NAME" value="admin"/>
+        </insert>
+        <insert tableName="USER_ROLE">
+            <column name="ROLE_NAME" value="moderator"/>
+        </insert>
+        <insert tableName="USER_ROLE">
+            <column name="ROLE_NAME" value="user"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="create-as-user-roles-table" author="yurolejniko@yandex.ru" logicalFilePath="changelog-1.0">
+        <createTable tableName="AS_USER_ROLE">
+            <column name="USER_ID" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ROLE_ID" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <!--    <changeSet id="clear-user-table" author="yurolejniko@yandex.ru" logicalFilePath="changelog-1.0" context="prod">-->
+    <!--        <delete tableName="USER">-->
+    <!--            <where>EMAIL='yurolejniko'</where>-->
+    <!--        </delete>-->
+    <!--    </changeSet>-->
+
+    <!--    <changeSet id="fill-usr-table" author="yurolejniko@yandex.ru" logicalFilePath="changelog-1.0" context="prod">-->
+    <!--        <insert tableName="USR">-->
+    <!--            <column name="EMAIL" value="yurolejniko@yandex.ru"/>-->
+    <!--            <column name="NICK_NAME" value="misterflud"/>-->
+    <!--            <column name="FIRST_NAME" value="Anton"/>-->
+    <!--            <column name="SECOND_NAME" value="Anton"/>-->
+    <!--            <column name="THIRD_NAME" value="Anton"/>-->
+    <!--            <column name="DATE_OF_REGISTRATION" valueDate="current_datetime"/>-->
+    <!--            <column name="ROLE" value="4"/>-->
+    <!--            <column name="PASSWORD" value="$2a$10$uDZNEGZlppGz67AlrlPf9OmgLqjhvK52VM7uS.T8aXyKqE7n9pupu"/>-->
+    <!--        </insert>-->
+    <!--    </changeSet>-->
+
+    <changeSet id="fix-usr-table" author="yurolejniko@yandex.ru" logicalFilePath="changelog-1.0" context="prod">
+        <dropColumn tableName="USR" columnName="ROLE"/>
+    </changeSet>
+
+    <changeSet id="user-roles-user-fk" author="yurolejniko@yandex.ru" logicalFilePath="changelog-1.0">
+        <addForeignKeyConstraint baseColumnNames="USER_ID" baseTableName="AS_USER_ROLE" constraintName="USER_FK"
+                                 referencedColumnNames="USER_ID" referencedTableName="USR"/>
+    </changeSet>
+
+    <changeSet id="user-roles-role-fk" author="yurolejniko@yandex.ru" logicalFilePath="changelog-1.0">
+        <addForeignKeyConstraint baseColumnNames="ROLE_ID" baseTableName="AS_USER_ROLE" constraintName="ROLE_FK"
+                                 referencedColumnNames="USER_ROLE_ID" referencedTableName="USER_ROLE"/>
+    </changeSet>
+
+    <changeSet id="fill-as-user-role-table" author="yurolejniko@yandex.ru" logicalFilePath="changelog-1.0"
+               context="prod">
+        <insert tableName="AS_USER_ROLE">
+            <column name="USER_ID" value="1"/>
+            <column name="ROLE_ID" value="1"/>
+        </insert>
+    </changeSet>
+
+
+</databaseChangeLog>

@@ -1,0 +1,31 @@
+spring:
+  datasource:
+    platform: postgres
+    url: jdbc:postgresql://localhost:5432/divide_experience?currentSchema=auth_service
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  liquibase:
+    contexts: test, prod
+
+security:
+  oauth2:
+    back_services:
+      jwt:
+        key-value: 222a
+    web:
+      jwt:
+        key-value: 222a
+
+---
+eureka:
+  instance:
+    ip-address: localhost
+    nonSecurePort: ${server.port}
+    instance-id: localhost:${spring.application.name}:${server.port}
+    preferIpAddress: true
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    serviceUrl:
+      defaultZone: http://localhost:8000/eureka/

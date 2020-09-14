@@ -3,7 +3,7 @@ import Pagination from 'react-bootstrap/Pagination';
 import ArticleListBlock from "../blocks/ArticleListBlock.jsx";
 import URIUtil from "../utils/URIUtil.jsx";
 
-const articlesUrl = "article/all";
+const articlesUrl = "article/api/all";
 const startPageSize = 5;
 
 class ArticlesBlock extends React.Component {

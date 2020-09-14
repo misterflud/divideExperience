@@ -13,7 +13,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.0.9.RELEASE</version>
+        <version>2.2.7.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -21,7 +21,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
         <checkstyle.version>8.33</checkstyle.version>
-        <spring-cloud-dependencies.version>Finchley.RELEASE</spring-cloud-dependencies.version>
+        <spring-cloud-dependencies.version>2.2.5.RELEASE</spring-cloud-dependencies.version>
         <checkstyle.plugin.version>3.1.1</checkstyle.plugin.version>
         <junit.verision>4.12</junit.verision>
         <springfox-swagger2.version>2.9.2</springfox-swagger2.version>
@@ -32,15 +32,15 @@
     </properties>
 
     <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-dependencies</artifactId>
-                <version>${spring-cloud-dependencies.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
+<!--        <dependencies>-->
+<!--            <dependency>-->
+<!--                <groupId>org.springframework.cloud</groupId>-->
+<!--                <artifactId>spring-cloud-dependencies</artifactId>-->
+<!--                <version>${spring-cloud-dependencies.version}</version>-->
+<!--                <type>pom</type>-->
+<!--                <scope>import</scope>-->
+<!--            </dependency>-->
+<!--        </dependencies>-->
     </dependencyManagement>
 
     <!--TODO:move to management block-->
@@ -114,10 +114,13 @@
     </dependencies>
 
     <modules>
-        <module>services/gatewayService</module>
-        <module>services/articleService</module>
-        <module>services/configService</module>
-        <module>services/authService</module>
+        <module>services/gateway-service</module>
+        <module>services/article-service</module>
+        <module>services/config-service</module>
+        <module>services/auth-service</module>
+        <module>services/registry-service</module>
+        <module>libs/api-lib</module>
+        <module>libs/security-lib</module>
     </modules>
 
     <build>

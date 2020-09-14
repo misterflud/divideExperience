@@ -5,9 +5,9 @@ import URIUtil from "../utils/URIUtil.jsx";
 import UserProfile from "../utils/UserProfile.jsx";
 import StaticSourceBlock from "../blocks/StaticSourceBlock.jsx";
 
-const startNewArticle = "article/p/write_article";
-const addArticleUrl = "article/p/add";
-const saveArticleUrl = "article/p/save";
+const startNewArticle = "article/api/p/write_article";
+const addArticleUrl = "article/api/p/add";
+const saveArticleUrl = "article/api/p/save";
 
 class ArticleEditorPage extends React.Component {
 

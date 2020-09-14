@@ -1,0 +1,113 @@
+- name: Builds images for Jenkins and push to repository
+  delegate_to: localhost
+  docker_image:
+    name: jenkins
+#    repository: "{{ docker.registry_path }}:jenkins"
+    build:
+#      nocache: true
+      dockerfile: "{{ jenkins_role.image_path }}/Dockerfile"
+      path: "{{ role_path }}"
+      args:
+        DOCKER_HOST_GROUP_ID: "{{ docker_role.host_group_id }}"
+        # this forces to update pip docker module
+        use_config_proxy: false
+    force: "{{ jenkins_role.create_force }}"
+#    push: yes
+    state: present
+    tag: "{{ jenkins.version| default('latest') }}"
+  tags:
+    - rebuild_jenkins
+    - deploy_jenkins
+
+- name: Creates directories for a div_jenkins container
+  become: true
+  file:
+    path: "{{ item }}"
+    state: directory
+    recurse: yes
+  with_items:
+    - "{{ jenkins_role.folder }}/job"
+    - "{{ jenkins_role.folder }}/job/script"
+  tags:
+    - restart_jenkins
+    - deploy_jenkins
+
+- name: Config files settings for a div_jenkins container 1
+  become: true
+  template:
+    src: "src/main/groovy/{{ item }}"
+    dest: "{{ jenkins_role.folder }}/{{ item }}"
+  with_items:
+    - "job/jobs.gdsl"
+    - "Startup.groovy"
+  tags:
+    - restart_jenkins
+    - deploy_jenkins
+
+- name: Config files settings for a div_jenkins container 2
+  become: true
+  template:
+    src: "{{ item }}"
+    dest: "{{ jenkins_role.folder }}/{{ item }}"
+  with_items:
+    - "settings.xml"
+    - ".div_ansible_vault_pass"
+  tags:
+    - restart_jenkins
+    - deploy_jenkins
+
+- name: Docker stops and removes div_jenkins container
+  docker_container:
+    name: div_jenkins
+    state: absent
+  become: true
+  tags:
+    - restart_jenkins
+    - deploy_jenkins
+
+- name: docker rm div_jenkins volume
+  docker_volume:
+    name: "jenkins-data"
+    state: absent
+  tags:
+    - deploy_jenkins
+
+- name: docker create div_jenkins volume
+  docker_volume:
+    name: "jenkins-data"
+    state: present
+    recreate: always
+  tags:
+    - deploy_jenkins
+
+- name: Lounches a div_jenkins container
+  docker_container:
+    name: "div_jenkins"
+    image: "jenkins:{{ jenkins.version| default('latest') }}"
+#    pull: "{{ jenkins_docker_pull }}"
+    restart_policy: "always"
+    env:
+      DIV_SSH_LOGIN: "{{ ansible_ssh.login }}"
+      DIV_SSH_PASSWORD: "{{ ansible_ssh.password }}"
+      DIV_DOCKER_REPOSITORY: "{{ docker.registry_path }}"
+      DIV_DOCKER_LOGIN: "{{ docker.username }}"
+      DIV_DOCKER_PASSWORD: "{{ docker.password }}"
+      DIV_GIT_PATH: "{{ git.path }}"
+      DIV_GIT_LOGIN: "{{ git.login }}"
+      DIV_GIT_PASSWORD: "{{ git.password }}"
+      JENKINS_AOLEYNIKOV_LOGIN: "{{ jenkins.aoleynikov_login }}"
+      JENKINS_AOLEYNIKOV_PASSWORD: "{{ jenkins.aoleynikov_password }}"
+      TZ: "Europe/Moscow"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "/usr/bin/docker:/usr/bin/docker"
+      - "{{ jenkins_role.folder }}/.div_ansible_vault_pass:/var/jenkins_home/.div_ansible_vault_pass:ro"
+      - "{{ jenkins_role.folder }}/settings.xml:/usr/share/maven/conf/settings.xml:ro"
+      - "{{ jenkins_role.folder }}/Startup.groovy:/usr/share/jenkins/ref/init.groovy.d/Startup.groovy:ro"
+      - "{{ jenkins_role.folder }}/job/jobs.gdsl:/usr/share/jenkins/ref/jobs/jobs.gdsl:ro"
+    ports:
+      - "{{ jenkins_role.front_port }}:8080"
+      - "50000:50000"
+  tags:
+    - restart_jenkins
+    - deploy_jenkins

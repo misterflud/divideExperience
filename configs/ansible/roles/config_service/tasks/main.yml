@@ -1,0 +1,84 @@
+---
+- name: Creates directories
+  file: path="{{item}}" state=directory owner="root" group="root" mode="775"
+  with_items:
+    - "{{ config_role.folder }}/data"
+    - "{{ config_role.folder }}/files"
+    - "{{ config_role.folder }}/logs"
+  tags:
+    - deploy_config_service
+
+- name:  Docker logout
+  become: true
+  docker_login:
+    state: absent
+    username: "{{ docker.username }}"
+  tags:
+    - deploy_config_service
+    - create_config_service_image
+
+- name:  Docker config login
+  become: true
+  docker_login:
+    username: "{{ docker.username }}"
+    password: "{{ docker.password }}"
+  tags:
+    - deploy_config_service
+    - create_config_service_image
+
+- name: A docker stops and rm div_config_service
+  docker_container:
+    name: div_config_service
+    state: absent
+  tags:
+    - deploy_config_service
+
+- name: Build jar file (Just for local usage)
+  shell:
+    chdir: "{{ source_folder }}/{{ config_role.path_to_docker_file }}"
+    cmd: mvn clean package
+  tags:
+    - create_config_service_image
+
+- name: Remove image div_config_service  (Just for local usage)
+  docker_image:
+    state: absent
+    name: "{{ docker.registry_path }}"
+    tag: div_config_service_latest
+    force: "yes"
+  tags:
+    - delete_config_service_image
+    - create_config_service_image
+
+- name: Create a new image (Just for local usage)
+  docker_image:
+    path: "{{ source_folder }}/{{ config_role.path_to_docker_file }}"
+    name: "{{ docker.registry_path }}"
+    tag: div_config_service_latest
+    push: "yes"
+    nocache: "yes"
+  tags:
+    - create_config_service_image
+
+- name: A docker starts div_config_service
+  docker_container:
+    name: div_config_service
+    image: "{{ docker.registry_path }}:{{ config_service_version }}"
+    pull: "yes"
+    restart_policy: "always"
+#    network_mode: "host"
+    volumes:
+      - "{{ config_role.folder }}/data:{{ config_role.folder }}/data"
+      - "{{ config_role.folder }}/files:{{ config_role.folder }}/files"
+      - "{{ config_role.folder }}/logs:{{ config_role.folder }}/logs"
+    ports:
+      - "{{ config_role.host_port }}:{{ config_role.container_port }}"
+    env:
+      ENV_DOCKER_HOST_IP: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
+      ENV_DOCKER_HOST_PORT: "{{ config_role.host_port }}"
+      ENV_EUREKA_DEFAULT_ZONE: "{{ ENV_EUREKA_DEFAULT_ZONE }}"
+      JAVA_TOOL_OPTIONS: "{{ config_role.java_tool_options }}"
+      encrypt.key: "{{ secret_key }}"
+    state: started
+  tags:
+    - deploy_config_service

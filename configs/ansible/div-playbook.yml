@@ -1,0 +1,60 @@
+---
+- name: The first configuration server
+  hosts: back
+  become: yes
+  roles:
+    - div-env-tools/common
+
+- name: Configurates back servers
+  hosts: back
+  become: yes
+  roles:
+    - div-env-tools/docker
+
+- name: Deploys a jenkins
+  hosts: jenkins
+  become: yes
+  roles:
+    - jenkins
+
+- name: Deploys an article service
+  hosts: article_service
+  become: yes
+  roles:
+    - article_service
+
+- name: Deploys an auth service
+  hosts: auth_service
+  become: yes
+  roles:
+    - auth_service
+
+- name: Deploys a config service
+  hosts: config_service
+  become: yes
+  roles:
+    - config_service
+
+- name: Deploys a gateway service
+  hosts: gateway_service
+  become: yes
+  roles:
+    - gateway_service
+
+- name: Deploys a registry service
+  hosts: registry_service
+  become: yes
+  roles:
+    - registry_service
+
+- name: Deploys postgres database
+  hosts: postgres_database
+  become: yes
+  roles:
+    - div-env-tools/postgres
+
+- name: Deploys front
+  hosts: front
+  become: yes
+  roles:
+    - front_service

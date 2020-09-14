@@ -1,0 +1,55 @@
+---
+# This is the ansible 'hosts' file.
+#
+#   - Comments begin with the '#' character
+#   - Blank lines are ignored
+#   - Groups of hosts are delimited by [header] elements
+#   - You can enter hostnames or ip addresses
+#   - A hostname/ip can be a member of multiple groups
+
+# All info you can find on http://docs.ansible.com/ansible/latest/intro_inventory.html
+
+back:
+  hosts:
+    div-prod-app.corp.divi.com:
+      ansible_host: 176.99.12.115
+
+article_service:
+  hosts:
+    div-prod-app.corp.divi.com:
+      ansible_host: 176.99.12.115
+
+auth_service:
+  hosts:
+    div-prod-app.corp.divi.com:
+      ansible_host: 176.99.12.115
+
+config_service:
+  hosts:
+    div-prod-app.corp.divi.com:
+      ansible_host: 176.99.12.115
+
+gateway_service:
+  hosts:
+    div-prod-app.corp.divi.com:
+      ansible_host: 176.99.12.115
+
+registry_service:
+  hosts:
+    div-prod-app.corp.divi.com:
+      ansible_host: 176.99.12.115
+
+front:
+  hosts:
+    div-prod-app.corp.divi.com:
+      ansible_host: 176.99.12.115
+
+balancer:
+  hosts:
+    div-prod-app.corp.divi.com:
+      ansible_host: 176.99.12.115
+
+postgres_database:
+  hosts:
+    div-prod-app.corp.divi.com:
+      ansible_host: 176.99.12.115

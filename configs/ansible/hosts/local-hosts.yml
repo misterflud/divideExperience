@@ -1,0 +1,75 @@
+---
+# This is the ansible 'hosts' file.
+#
+#   - Comments begin with the '#' character
+#   - Blank lines are ignored
+#   - Groups of hosts are delimited by [header] elements
+#   - You can enter hostnames or ip addresses
+#   - A hostname/ip can be a member of multiple groups
+
+# All info you can find on http://docs.ansible.com/ansible/latest/intro_inventory.html
+
+# TODO: moved to vault file
+#all:
+#  vars:
+#    ansible_sudo_pass: password
+
+back:
+  hosts:
+    local:
+      ansible_host: 127.0.0.1
+      ansible_connection: local
+
+article_service:
+  hosts:
+    local:
+      ansible_host: 127.0.0.1
+      ansible_connection: local
+
+auth_service:
+  hosts:
+    local:
+      ansible_host: 127.0.0.1
+      ansible_connection: local
+
+config_service:
+  hosts:
+    local:
+      ansible_host: 127.0.0.1
+      ansible_connection: local
+
+gateway_service:
+  hosts:
+    local:
+      ansible_host: 127.0.0.1
+      ansible_connection: local
+
+registry_service:
+  hosts:
+    local:
+      ansible_host: 127.0.0.1
+      ansible_connection: local
+
+front:
+  hosts:
+    local:
+      ansible_host: 127.0.0.1
+      ansible_connection: local
+
+balancer:
+  hosts:
+    local:
+      ansible_host: 127.0.0.1
+      ansible_connection: local
+
+jenkins:
+  hosts:
+    local:
+      ansible_host: 127.0.0.1
+      ansible_connection: local
+
+postgres_database:
+  hosts:
+    local:
+      ansible_host: 127.0.0.1
+      ansible_connection: local

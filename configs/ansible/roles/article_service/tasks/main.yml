@@ -1,0 +1,75 @@
+---
+- name: Creates directories
+  file: path="{{item}}" state=directory owner="root" group="root" mode="775"
+  with_items:
+    - "{{ article_role.folder }}/data"
+    - "{{ article_role.folder }}/files"
+    - "{{ article_role.folder }}/logs"
+  tags:
+    - deploy_article_service
+
+- name:  Docker registry login
+  become: true
+  docker_login:
+    username: "{{ docker.username }}"
+    password: "{{ docker.password }}"
+  tags:
+    - deploy_article_service
+
+- name: Docker stops and rm div_article_service
+  docker_container:
+    name: div_article_service
+    state: absent
+  tags:
+    - deploy_article_service
+
+- name: Build jar file (Just for local usage)
+  shell:
+    chdir: "{{ source_folder }}/{{ article_role.path_to_docker_file }}"
+    cmd: mvn clean package
+  tags:
+    - create_article_service_image
+
+- name: Remove image div_article_service  (Just for local usage)
+  docker_image:
+    state: absent
+    name: "{{ docker.registry_path }}"
+    tag: div_article_service_latest
+    force: "yes"
+  tags:
+    - delete_article_service_image
+    - create_article_service_image
+
+- name: Create a new image (Just for local usage)
+  docker_image:
+    path: "{{ source_folder }}/{{ article_role.path_to_docker_file }}"
+    name: "{{ docker.registry_path }}"
+    tag: div_article_service_latest
+    push: "yes"
+    nocache: "yes"
+  tags:
+    - create_article_service_image
+
+- name: Docker starts div_article_service
+  docker_container:
+    name: div_article_service
+    image: "{{ docker.registry_path }}:{{ article_service_version }}"
+    pull: "yes"
+    restart_policy: "always"
+    network_mode: "host"
+    volumes:
+      - "{{ article_role.folder }}/data:{{ article_role.folder }}/data"
+      - "{{ article_role.folder }}/files:{{ article_role.folder }}/files"
+      - "{{ article_role.folder }}/logs:{{ article_role.folder }}/logs"
+#    ports:
+#      - "{{ article_role.host_port }}:{{ article_role.container_port }}"
+    env:
+      PROFILE: "{{ env }}"
+      ENV_DOCKER_HOST_IP: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
+      ENV_DOCKER_HOST_PORT: "{{ article_role.host_port }}"
+      ENV_EUREKA_DEFAULT_ZONE: "{{ ENV_EUREKA_DEFAULT_ZONE }}"
+      JAVA_TOOL_OPTIONS: "{{ article_role.java_tool_options }}"
+      encrypt.key: "{{ secret_key }}"
+    state: started
+  tags:
+    - deploy_article_service

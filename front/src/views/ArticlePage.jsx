@@ -2,7 +2,7 @@ import React from 'react';
 import {Button, Container, Form, Table} from 'react-bootstrap';
 import URIUtil from "../utils/URIUtil.jsx";
 
-const articleUrl = "article/get";
+const articleUrl = "article/api/get";
 
 var getArticleUrl;
 var articleBlock = "";

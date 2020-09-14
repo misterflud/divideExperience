@@ -1,0 +1,50 @@
+server:
+  port: 7002
+  servlet:
+    context-path: /auth
+
+spring:
+  application:
+    name: auth-service
+  datasource:
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate.temp.use_jdbc_metadata_defaults: false
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.xml
+    drop-first: false
+
+---
+spring:
+  profiles: dev, prod
+  cloud:
+    config:
+      discovery:
+        service-id: config-service
+        enabled: true
+      fail-fast: true
+      retry:
+        initial-interval: 5000
+        max-attempts: 15
+        multiplier: 1.5
+        max-interval: 10000
+
+eureka:
+  instance:
+    preferIpAddress: true
+    ip-address: ${ENV_DOCKER_HOST_IP}
+    nonSecurePort: ${ENV_DOCKER_HOST_PORT}
+    instance-id: ${ENV_DOCKER_HOST_IP}:${spring.application.name}:${ENV_DOCKER_HOST_PORT}
+    homePageUrl: http://${ENV_DOCKER_HOST_IP}:${ENV_DOCKER_HOST_PORT}/
+    statusPageUrl: http://${ENV_DOCKER_HOST_IP}:${ENV_DOCKER_HOST_PORT}/actuator/info/
+    healthCheckUrl: http://${ENV_DOCKER_HOST_IP}:${ENV_DOCKER_HOST_PORT}/actuator/health/
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    serviceUrl:
+      defaultZone: ${ENV_EUREKA_DEFAULT_ZONE}
+    enabled: true

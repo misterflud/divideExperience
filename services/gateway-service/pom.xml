@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>gateway-service</artifactId>
+    <version>0.0.1</version>
+    <name>gateway-service</name>
+
+    <parent>
+        <artifactId>divideExperience</artifactId>
+        <groupId>com.divideExperience</groupId>
+        <version>0.0.1</version>
+        <relativePath>../../pom.xml</relativePath>
+    </parent>
+
+    <properties>
+        <spring.cloud.netflix.version>2.2.5.RELEASE</spring.cloud.netflix.version>
+        <spring-could-starter-config.version>2.2.5.RELEASE</spring-could-starter-config.version>
+        <spring-cloud-config-client.version>2.2.5.RELEASE</spring-cloud-config-client.version>
+        <spring-cloud-starter-netflix-eureka-client.version>2.2.5.RELEASE</spring-cloud-starter-netflix-eureka-client.version>
+        <api-lib.version>0.0.1</api-lib.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.divideExperience</groupId>
+            <artifactId>api-lib</artifactId>
+            <version>${api-lib.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-config-client</artifactId>
+            <version>${spring-cloud-config-client.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-zuul</artifactId>
+            <version>${spring.cloud.netflix.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+            <version>${spring-cloud-starter-netflix-eureka-client.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <finalName>${project.name}</finalName>
+                    <addResources>true</addResources>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

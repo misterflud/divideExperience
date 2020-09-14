@@ -4,7 +4,7 @@ import URIUtil from "../utils/URIUtil.jsx";
 import base64 from 'react-native-base64'
 import {Button, Container, Form} from "react-bootstrap";
 
-const loginUrl = "auth/login";
+const loginUrl = "auth/api/login";
 
 class LoginPage extends React.Component {
 

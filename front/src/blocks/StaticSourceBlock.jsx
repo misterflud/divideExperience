@@ -4,9 +4,9 @@ import URIUtil from "../utils/URIUtil.jsx";
 import {Button, Container, Form} from "react-bootstrap";
 import UserProfile from "../utils/UserProfile.jsx";
 
-const staticURI = "article/static/p";
-const staticProtectURI = "article/static/p";
-const getStaticsURI = "article/static/s/get/sources/";
+const staticURI = "article/api/static/p";
+const staticProtectURI = "article/api/static/p";
+const getStaticsURI = "article/api/static/s/get/sources/";
 
 class StaticSourceBlock extends React.Component {
     constructor(props) {

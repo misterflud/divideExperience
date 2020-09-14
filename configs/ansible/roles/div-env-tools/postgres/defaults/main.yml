@@ -1,0 +1,8 @@
+---
+postgres_role:
+  folder: /home/projects/divide_experience_project/container_folder/postgres
+  path_to_docker_file: configs/ansible/roles/div-env-tools/postgres
+  host_port: 5432
+  container_port: 5432
+  POSTGRES_DB: divide_experience
+  POSTGRES_USER: div_user

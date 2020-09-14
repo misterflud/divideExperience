@@ -1,4 +1,5 @@
 import React from "react";
+
 import {Route, Switch} from "react-router";
 import MainPage from "../views/MainPage.jsx";
 import RegistrationPage from "../views/RegistrationPage.jsx";
