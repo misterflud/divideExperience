@@ -1,0 +1,7 @@
+---
+article_role:
+  java_tool_options: "-Xms256m -Xmx512m"
+  folder: /home/projects/divide_experience_project/container_folder/div_article_service
+  host_port: 6002
+  container_port: 6002
+  path_to_docker_file: services/article-service

@@ -1,0 +1,113 @@
+def VERSION = 'UNKNOWN'
+def SERVICE_NAME = 'UNKNOWN'
+
+pipeline {
+    options {
+        timeout(time: 10, unit: 'MINUTES')
+        timestamps()
+//         ansiColor('xterm')
+    }
+
+    parameters {
+        choice(choices: "${env.ENVIRONMENTS}", description: 'Choose environment', name: 'ENVIRONMENT')
+        string(defaultValue: "", description: "Set version. Otherwise it will be calculated automatically", name: 'VERSION')
+        //TODO: change it
+        string(defaultValue: "feature/DEXPER-15", description: "Infrastructure branch", name: 'INFRASTRUCTURE_BRANCH')
+        string(defaultValue: "feature/DEXPER-15", description: "Config branch", name: 'ENV_REPO_BRANCH')
+        booleanParam (defaultValue: true, description: 'Build image', name : 'FORCE_FULL_BUILD')
+        booleanParam (defaultValue: true, description: 'Deploy', name : 'DEPLOY')
+    }
+
+    agent any
+    stages {
+        stage("Checks environments") {
+            steps {
+                sh "mvn -version"
+                sh "docker --version"
+                sh "docker info"
+                script {
+                    docker.withRegistry('', 'div_docker_credential') {
+
+                    }
+               }
+            }
+        }
+
+        stage("Prepare") {
+            steps {
+                script {
+                    if (env.BUILD_USER_ID == 'null') {
+                        if (currentBuild.result != 'UNSTABLE') {
+                            currentBuild.description = "Git indexing"
+                            currentBuild.result = 'UNSTABLE'
+                            echo("Git indexing. Don't continue")
+                        }
+                        return false;
+                    }
+                    pom = readMavenPom file: 'services/registry-service/pom.xml'
+                    VERSION = pom.version
+                    SERVICE_NAME = pom.artifactId
+                    println(pom.name)
+                }
+            }
+        }
+
+        stage("Build") {
+            steps {
+                script {
+                    if (env.BUILD_USER_ID == 'null') {
+                        if (currentBuild.result != 'UNSTABLE') {
+                            currentBuild.description = "Git indexing"
+                            currentBuild.result = 'UNSTABLE'
+                            echo("Git indexing. Don't continue")
+                        }
+                        return false;
+                    }
+                    sh "mvn clean package -f services/registry-service/pom.xml"
+
+                    String repository = env.DIV_DOCKER_REPOSITORY
+
+                    def dockerImage = docker.build("${repository}:${SERVICE_NAME}_${VERSION}", "services/registry-service/")
+                    docker.withRegistry('', 'div_docker_credential') {
+                        dockerImage.push()
+                    }
+                    sh "docker rmi ${repository}:${SERVICE_NAME}_${VERSION}"
+                }
+            }
+        }
+
+        stage("Deploy to environment") {
+            steps {
+                script {
+                    if (env.BUILD_USER_ID == 'null') {
+                        if (currentBuild.result != 'UNSTABLE') {
+                            currentBuild.description = "Git indexing"
+                            currentBuild.result = 'UNSTABLE'
+                            echo("Git indexing. Don't continue")
+                        }
+                        return false;
+                    }
+                    println("rere")
+                    String normServiceName = SERVICE_NAME.replaceAll('-', '_')
+                    deployPlaybook = 'div-playbook.yml'
+
+                    println(normServiceName)
+                    println(env.DIV_GIT_PATH)
+                    println(INFRASTRUCTURE_BRANCH)
+
+                    git branch: "${INFRASTRUCTURE_BRANCH}", credentialsId: 'div_git_credential', url: 'https://github.com/misterflud/divideExperience.git'
+                    ansiblePlaybook(colorized: true, credentialsId: "div_ssh_ansible_credential",
+                        installation: 'ansible27', inventory: "configs/ansible/hosts/${params.ENVIRONMENT}-hosts.yml",
+                        playbook: "configs/ansible/${deployPlaybook}", disableHostKeyChecking: true, tags: "deploy_${normServiceName}",
+                        extras: """--extra-vars='{"env":"${params.ENVIRONMENT}", "${normServiceName}_version":"${version}", "ENV_REPO_BRANCH":"${params.ENV_REPO_BRANCH}"}' --vault-password-file /var/jenkins_home/.div_ansible_vault_pass""")
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            cleanWs()
+        }
+    }
+}

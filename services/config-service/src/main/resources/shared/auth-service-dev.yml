@@ -1,0 +1,24 @@
+spring:
+  datasource:
+    platform: postgres
+    url: jdbc:postgresql://localhost:5432/divide_experience?currentSchema=auth_service
+    username: div_user
+    password: "{cipher}31c1591dd7c5390af04274e7f0562bcc93664789a1f733a8437825fa6ceb482a"
+  liquibase:
+    contexts: test, prod
+
+security:
+  oauth2:
+    web:
+      jwt:
+        key-value: "{cipher}71cf28ce7f26e7bf3f2eb87676f9b8842c0aaa704dcd21cbfa8565b1579392a4c402ab83b156a59ef5ae059344cc77f3c988c5529ee0d1179b4cb866bedd6af7"
+    back_services:
+      jwt:
+        key-value: "{cipher}749e60ea12ff8adbd6a6832b6181e7a6dcdf11439a6f68c1360bd3a96c1bbc6cfc9280f1bead6fd466594c48cf540c81bc632a2750662fbced75ecab7e797b23"
+
+logging:
+  level:
+    roor: DEBUG
+    org:
+      springframework:
+        security=DEBUG:

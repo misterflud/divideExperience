@@ -1,0 +1,79 @@
+---
+- name:  Docker logout
+  become: true
+  docker_login:
+    state: absent
+    username: "{{ docker.username }}"
+  tags:
+    - deploy_postgres_database
+    - create_image_postgres_database
+
+- name:  Docker registry login
+  become: true
+  docker_login:
+    username: "{{ docker.username }}"
+    password: "{{ docker.password }}"
+    reauthorize: yes
+  tags:
+    - deploy_postgres_database
+    - create_image_postgres_database
+
+- name: Stop and rm div_postgres_database
+  docker_container:
+    name: div_postgres_database
+    state: absent
+  tags:
+    - deploy_postgres_database
+    - restart_postgres_database
+
+- name: Cleans directories
+  file:
+    state: absent
+    path: "{{ postgres_role.folder }}"
+  tags:
+    - clean_directories_postgres_database
+    - deploy_postgres_database
+
+- name: Creates directories
+  file: path="{{item}}" state=directory owner="root" group="root" mode="777"
+  with_items:
+    - "{{ postgres_role.folder }}"
+  tags:
+    - deploy_postgres_database
+
+- name: Remove image postgres_database  (Just for local usage)
+  docker_image:
+    state: absent
+    name: "{{ docker.registry_path }}"
+    tag: div_postgres_database_latest
+    force: "yes"
+  tags:
+    - delete_postgres_database_image
+    - create_postgres_database_image
+
+- name: Create a new image (Just for local usage)
+  docker_image:
+    path: "{{ source_folder }}/{{ postgres_role.path_to_docker_file }}"
+    name: "{{ docker.registry_path }}"
+    tag: div_postgres_database_latest
+    push: yes
+  tags:
+    - create_postgres_database_image
+
+- name: Start a docker container div_postgres_database {{ postgres_role.POSTGRES_DB }} {{ postgres_role.POSTGRES_USER }}
+  docker_container:
+    name: "div_postgres_database"
+    image: "{{ docker.registry_path }}:div_postgres_database_latest"
+    pull: "yes"
+    restart_policy: "always"
+    volumes:
+      - "{{ postgres_role.folder }}:/var/lib/postgresql/data"
+    ports:
+      - "{{ postgres_role.host_port }}:{{ postgres_role.container_port }}"
+    env:
+      POSTGRES_DB: "{{ postgres_role.POSTGRES_DB }}"
+      POSTGRES_USER: "{{ postgres_role.POSTGRES_USER }}"
+      POSTGRES_PASSWORD: "{{ POSTGRES_PASSWORD }}"
+  tags:
+    - deploy_postgres_database
+    - restart_postgres_database

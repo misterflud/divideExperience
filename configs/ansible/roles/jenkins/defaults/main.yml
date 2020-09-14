@@ -1,0 +1,10 @@
+---
+jenkins_role:
+  create_force: true
+  docker_pull: true
+  image_path: /home/anton/projects/divide_experience/divideExperience/configs/ansible/roles/jenkins
+  folder: /home/projects/divide_experience_project/container_folder/jenkins
+  front_port: 8080
+docker_role:
+  host_group_id: 998
+  project_folder: /home/projects/divide_experience_project/container_folder

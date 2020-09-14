@@ -1,0 +1,80 @@
+def VERSION = 'UNKNOWN'
+def SERVICE_NAME = 'UNKNOWN'
+
+pipeline {
+
+    environment {
+        BUILD_USER_ID = "${getUserId()}"
+    }
+
+    parameters {
+        choice(choices: "${env.ENVIRONMENTS}", description: 'Choose environment', name: 'ENVIRONMENT')
+        string(defaultValue: "", description: "Set version. Otherwise it will be calculated automatically", name: 'VERSION')
+        //TODO: change it
+        string(defaultValue: "feature/DEXPER-15", description: "Infrastructure branch", name: 'INFRASTRUCTURE_BRANCH')
+        booleanParam (defaultValue: true, description: 'Build image', name : 'FORCE_FULL_BUILD')
+        booleanParam (defaultValue: true, description: 'Deploy', name : 'DEPLOY')
+    }
+
+    agent any
+
+    stages {
+        stage("Prepare") {
+            steps {
+                script {
+                    if (isIndexing(currentBuild)) {
+                        return false;
+                    }
+                    package = readJSON file: 'front/package.json'
+                    VERSION = package.version
+                    SERVICE_NAME = package.name
+                }
+            }
+        }
+    }
+    stage("Build") {
+        steps {
+            script {
+                if (isIndexing(currentBuild)) {
+                    return false;
+                }
+                if (params.FORCE_FULL_BUILD) {
+                    sh 'rm -rf ./front/build/'
+                    sh 'mkdir -p ./front/node_modules'
+                    sh 'npm install --prefix ./front'
+                    sh 'npm run build --prefix ./front'
+
+                    def dockerImage = docker.build("${repository}:${SERVICE_NAME}_${VERSION}", "services/article-service/")
+                    docker.withRegistry('', 'div_docker_credential') {
+                        dockerImage.push()
+                    }
+                    sh "docker rmi ${repository}:${SERVICE_NAME}_${VERSION}"
+
+                    sh 'rm -rf ./front/node_modules'
+                }
+            }
+        }
+    }
+    stage("Deploy to environment") {
+        steps {
+            script {
+                if (isIndexing(currentBuild)) {
+                    return false;
+                }
+                String normServiceName = SERVICE_NAME.replaceAll('-', '_')
+                deployPlaybook = 'div-playbook.yml'
+
+                println(normServiceName)
+                println(env.DIV_GIT_PATH)
+                println(INFRASTRUCTURE_BRANCH)
+
+                git branch: "${INFRASTRUCTURE_BRANCH}", credentialsId: 'div_git_credential', url: 'https://github.com/misterflud/divideExperience.git'
+                ansiblePlaybook(colorized: true, credentialsId: "div_ssh_ansible_credential",
+                    installation: 'ansible27', inventory: "configs/ansible/hosts/${params.ENVIRONMENT}-hosts.yml",
+                    playbook: "configs/ansible/${deployPlaybook}", disableHostKeyChecking: true, tags: "deploy_${normServiceName}",
+                    extras: """--extra-vars='{"env":"${params.ENVIRONMENT}", "${normServiceName}_version":"${version}", "ENV_REPO_BRANCH":"${params.ENV_REPO_BRANCH}"}' --vault-password-file /var/jenkins_home/.div_ansible_vault_pass""")
+            }
+        }
+    }
+  }
+}

@@ -1,0 +1,18 @@
+spring:
+  datasource:
+    platform: postgres
+    url: jdbc:postgresql://localhost:5432/divide_experience?currentSchema=article_service
+    username: div_user
+    password: ''
+  liquibase:
+    contexts: prod
+
+article_service:
+  static_source:
+    base_path: /home/projects/divide_experience_project/static/%s/%s/%s
+
+security:
+  oauth2:
+    back_services:
+      jwt:
+        key-value: ""

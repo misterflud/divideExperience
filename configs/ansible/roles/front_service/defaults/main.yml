@@ -1,0 +1,5 @@
+---
+front_role:
+  host_port: 10000
+  container_port: 80
+  path_to_docker_file: front

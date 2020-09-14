@@ -1,0 +1,112 @@
+folder('services') {
+    displayName('services')
+    description('Deploys services.')
+}
+
+folder('libs') {
+    displayName('libs')
+    description('Builds libs.')
+}
+
+folder('infrastructure') {
+    displayName('infrastructure')
+    description('Manages an infrastructure.')
+}
+
+folder('tests') {
+    displayName('tests')
+    description('Manages tests.')
+}
+
+
+//multibranchPipelineJob('services/div-article-service') {
+//    displayName('div-article-service')
+//    description('It is a manager of all workflow with articles and authors.')
+//    branchSources {
+//        git {
+//            id('div-article-service-id')
+//            remote('https://github.com/misterflud/divideExperience.git')
+//            credentialsId('divide_git_credential')
+//            includes('**')
+//            excludes('')
+//            ignoreOnPushNotifications(false)
+//        }
+//    }
+//    factory {
+//        workflowMultiBranchProjectFactory {
+//            scriptPath('services/article-service/Jenkinsfile')
+//        }
+//    }
+//}
+
+pipelineJob('services/config-service') {
+    displayName('config-service')
+    description('Spring Cloud config service.')
+    definition {
+        cpsScm {
+            scm {
+                git {
+                    branch('feature/DEXPER-15')
+                    remote {
+                        url('https://github.com/misterflud/divideExperience.git')
+                        credentials('div_git_credential')
+                    }
+                }
+            }
+            scriptPath('services/config-service/Jenkinsfile')
+        }
+    }
+    logRotator {
+        artifactDaysToKeep(1)
+        artifactNumToKeep(1)
+        daysToKeep(100)
+    }
+}
+
+pipelineJob('services/registry-service') {
+    displayName('registry-service')
+    description('Spring Cloud registry service.')
+    definition {
+        cpsScm {
+            scm {
+                git {
+                    branch('feature/DEXPER-15')
+                    remote {
+                        url('https://github.com/misterflud/divideExperience.git')
+                        credentials('div_git_credential')
+                    }
+                }
+            }
+            scriptPath('services/registry-service/Jenkinsfile')
+        }
+    }
+    logRotator {
+        artifactDaysToKeep(1)
+        artifactNumToKeep(1)
+        daysToKeep(100)
+    }
+}
+
+pipelineJob('services/article-service') {
+    displayName('article-service')
+    description('It is a manager of all workflow with articles and authors.')
+    definition {
+        cpsScm {
+            scm {
+                git {
+                    branch('feature/DEXPER-15')
+                    remote {
+                        url('https://github.com/misterflud/divideExperience.git')
+                        credentials('div_git_credential')
+                    }
+                }
+            }
+            scriptPath('services/article-service/Jenkinsfile')
+        }
+    }
+    logRotator {
+        artifactDaysToKeep(1)
+        artifactNumToKeep(1)
+        daysToKeep(100)
+    }
+}

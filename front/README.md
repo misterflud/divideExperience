@@ -8,9 +8,10 @@ REQUIREMENTS
 ------------
 
 1. npm.
-2. Babel.
-3. Webpack.
+2. Babel (inside CRA).
+3. Webpack (inside CRA).
 4. React-bootstrap.
+5. create-react-app (CRA)
 
 
 INSTALLATION
@@ -18,20 +19,20 @@ INSTALLATION
 
 ### Installation environment
 
-On command line, type in the following commands (in directory ../front):
+On command line, types in the following commands (in directory ../front):
 
-      npm install npm@latest -g
-      npm install react requirejs react-dom rest --save
-      npm install babel-loader babel-core webpack webpack-dev-server @babel/preset-stage-0 babel-plugin-transform-regenerator @babel/preset-env @babel/preset-react --save-dev
-      npm install react-bootstrap bootstrap
-      npm install --save react-router-dom
-      npm install --save react-router-bootstrap
+      npm install
 
 The key "save" does installation just for development.
 
 QUICK START
 -----------
 
-For start server to execute script from package json:
+For start a server to execute script from package json:
 
-      npm run server
+      npm start
+      
+-----------      
+To build a production building folder to execute:
+
+      npm run build

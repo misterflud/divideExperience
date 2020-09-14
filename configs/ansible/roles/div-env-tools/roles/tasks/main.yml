@@ -1,0 +1,8 @@
+#- name:
+#  file: path="{{item}}"  state=directory owner="root" group="root" mode="775"
+#  with_items:
+#    - "{{ article_role.folder }}/data"
+#    - "{{ article_role.folder }}/files"
+#    - "{{ article_role.folder }}/logs"
+#  tags:
+#    - deploy_article_service

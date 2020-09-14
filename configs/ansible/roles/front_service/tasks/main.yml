@@ -1,0 +1,54 @@
+---
+- name:  Docker registry login
+  become: true
+  docker_login:
+    username: "{{ docker.username }}"
+    password: "{{ docker.password }}"
+  tags:
+    - deploy_div_front
+
+- name: Stops and removes div_front container
+  docker_container:
+    name: div_front
+    state: absent
+  tags:
+    - deploy_div_front
+
+- name: Rebuild front  (Just for local usage)
+  shell:
+    chdir: "{{ source_folder }}/{{ front_role.path_to_docker_file }}"
+    cmd: npm run build
+  tags:
+    - create_div_front_image
+
+- name: Remove image div_front  (Just for local usage)
+  docker_image:
+    state: absent
+    name: "{{ docker.registry_path }}"
+    tag: div_front_latest
+    force: "yes"
+  tags:
+    - delete_div_front_image
+    - create_div_front_image
+
+- name: Create a new div_front image (Just for local usage)
+  docker_image:
+    path: "{{ source_folder }}/{{ front_role.path_to_docker_file }}"
+    name: "{{ docker.registry_path }}"
+    tag: div_front_latest
+    push: "yes"
+    nocache: "yes"
+  tags:
+    - create_div_front_image
+
+- name: Start div_front container
+  docker_container:
+    name: div_front
+    pull: "yes"
+    restart_policy: "always"
+    ports:
+      - "{{ front_role.host_port }}:{{ front_role.container_port }}"
+    image: "{{ docker.registry_path }}:{{ div_front_version }}"
+    state: started
+  tags:
+    - deploy_div_front

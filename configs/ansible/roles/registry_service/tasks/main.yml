@@ -1,0 +1,79 @@
+---
+- name: Creates directories
+  file: path="{{item}}" state=directory owner="root" group="root" mode="775"
+  with_items:
+    - "{{ registry_role.folder }}/data"
+    - "{{ registry_role.folder }}/files"
+    - "{{ registry_role.folder }}/logs"
+  tags:
+    - deploy_registry_service
+
+- name:  Docker logout
+  become: true
+  docker_login:
+    state: absent
+    username: "{{ docker.username }}"
+  tags:
+    - deploy_registry_service
+    - create_registry_service_image
+
+- name:  Docker registry login
+  become: true
+  docker_login:
+    username: "{{ docker.username }}"
+    password: "{{ docker.password }}"
+  tags:
+    - deploy_registry_service
+    - create_registry_service_image
+
+- name: A docker stops and rm div_registry_service
+  docker_container:
+    name: div_registry_service
+    state: absent
+  tags:
+    - deploy_registry_service
+
+- name: Build jar file (Just for local usage)
+  shell:
+    chdir: "{{ source_folder }}/{{ registry_role.path_to_docker_file }}"
+    cmd: mvn clean package
+  tags:
+    - create_registry_service_image
+
+- name: Remove image div_registry_image  (Just for local usage)
+  docker_image:
+    state: absent
+    name: "{{ docker.registry_path }}"
+    tag: div_registry_service_latest
+    force: "yes"
+  tags:
+    - delete_registry_service_image
+    - create_registry_service_image
+
+- name: Create a new image (Just for local usage)
+  docker_image:
+    path: "{{ source_folder }}/{{ registry_role.path_to_docker_file }}"
+    name: "{{ docker.registry_path }}"
+    tag: div_registry_service_latest
+    push: "yes"
+    nocache: "yes"
+  tags:
+    - create_registry_service_image
+
+- name: A docker starts div_registry_service
+  docker_container:
+    name: div_registry_service
+    pull: "yes"
+    restart_policy: "always"
+    volumes:
+      - "{{ registry_role.folder }}/data:{{ registry_role.folder }}/data"
+      - "{{ registry_role.folder }}/files:{{ registry_role.folder }}/files"
+      - "{{ registry_role.folder }}/logs:{{ registry_role.folder }}/logs"
+    ports:
+      - "{{ registry_role.host_port }}:{{ registry_role.container_port }}"
+    env:
+      JAVA_TOOL_OPTIONS: "{{ registry_role.java_tool_options }}"
+    image: "{{ docker.registry_path }}:{{ registry_service_version }}"
+    state: started
+  tags:
+    - deploy_registry_service
