@@ -23,7 +23,7 @@
         <checkstyle.version>8.33</checkstyle.version>
         <spring-cloud-dependencies.version>Finchley.RELEASE</spring-cloud-dependencies.version>
         <checkstyle.plugin.version>3.1.1</checkstyle.plugin.version>
-        <junit.verision>4.12</junit.verision>
+        <junit.verision>4.13.1</junit.verision>
         <springfox-swagger2.version>2.9.2</springfox-swagger2.version>
         <springfox-swagger-ui.version>2.9.2</springfox-swagger-ui.version>
         <springfox-bean-validators.version>2.9.2</springfox-bean-validators.version>
