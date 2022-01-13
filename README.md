@@ -1,7 +1,7 @@
 Divide Experience
 =================
 
-This is a myself project for using my skills in something new for me.  In addition it's will be my mini blog, where I can realisation my love to writing.
+This is a myself project for using my skills in something new for me.  In addition it will be my mini blog, where I can realisation my love to writing.
 I choose microservice design because each service can be written on different technologies.
 
 
