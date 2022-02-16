@@ -20,7 +20,7 @@
         <CONFIG_SERVICE_PASSWORD>111</CONFIG_SERVICE_PASSWORD>
         <guava.version>27.1-jre</guava.version>
         <commons-lang.version>3.9</commons-lang.version>
-        <postgresql.version>42.2.5</postgresql.version>
+        <postgresql.version>42.3.3</postgresql.version>
         <hibernate.core.version>5.4.0.Final</hibernate.core.version>
         <hibernate.javax.version>1.0.2.Final</hibernate.javax.version>
         <modelmapper.version>2.3.4</modelmapper.version>
