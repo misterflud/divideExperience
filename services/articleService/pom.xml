@@ -20,7 +20,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <CONFIG_SERVICE_PASSWORD>111</CONFIG_SERVICE_PASSWORD>
         <java.version>1.8</java.version>
-        <postgresql.version>42.2.5</postgresql.version>
+        <postgresql.version>42.4.1</postgresql.version>
         <hibernate.verxion>5.4.0.Final</hibernate.verxion>
         <hibernate-jpa-api.verxion>1.0.2.Final</hibernate-jpa-api.verxion>
         <json-path.verxion>2.2.0</json-path.verxion>
