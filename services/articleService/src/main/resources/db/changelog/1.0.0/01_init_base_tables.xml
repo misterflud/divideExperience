@@ -4,7 +4,7 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
 
-    <changeSet id="create-author-table" author="yurolejniko@yandex.ru" logicalFilePath="changelog-1.0" context="prod">
+    <changeSet id="create-author-table" author="yurolejniko@yandex.ru" logicalFilePath="changelog-1.0">
         <createTable tableName="author">
             <column autoIncrement="true" name="AUTHOR_ID" type="SERIAL">
                 <constraints primaryKey="true" primaryKeyName="author_pkey" nullable="false"/>
@@ -26,7 +26,7 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="create-article-table" author="yurolejniko@yandex.ru" logicalFilePath="changelog-1.0" context="prod">
+    <changeSet id="create-article-table" author="yurolejniko@yandex.ru" logicalFilePath="changelog-1.0">
         <createTable tableName="article">
             <column autoIncrement="true" name="ARTICLE_ID" type="SERIAL">
                 <constraints primaryKey="true" primaryKeyName="article_pkey" nullable="false"/>
@@ -45,6 +45,47 @@
         </createTable>
         <addForeignKeyConstraint baseTableName="article" baseColumnNames="author_id" constraintName="author_id"
                                  referencedTableName="author" referencedColumnNames="author_id"/>
+    </changeSet>
+
+    <changeSet id="create-usr-table" author="yurolejniko@yandex.ru" logicalFilePath="changelog-1.0">
+        <createTable tableName="USR">
+            <column autoIncrement="true" name="USER_ID" type="SERIAL">
+                <constraints primaryKey="true" primaryKeyName="usr_pkey" nullable="false"/>
+            </column>
+            <column name="EMAIL" type="VARCHAR(300)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="NICK_NAME" type="VARCHAR(300)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="FIRST_NAME" type="VARCHAR(300)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="SECOND_NAME" type="VARCHAR(300)"/>
+            <column name="THIRD_NAME" type="VARCHAR(300)"/>
+            <column name="DATE_OF_REGISTRATION" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ROLE" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PASSWORD" type="VARCHAR(5000)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="fill-usr-table" author="yurolejniko@yandex.ru" logicalFilePath="changelog-1.0">
+        <insert tableName="USR">
+            <column name="EMAIL" value="yurolejniko@yandex.ru"/>
+            <column name="NICK_NAME" value="misterflud"/>
+            <column name="FIRST_NAME" value="Anton"/>
+            <column name="SECOND_NAME" value="Anton"/>
+            <column name="THIRD_NAME" value="Anton"/>
+            <column name="DATE_OF_REGISTRATION" valueDate="current_datetime"/>
+            <column name="ROLE" value="4"/>
+            <column name="PASSWORD" value="$2a$10$uDZNEGZlppGz67AlrlPf9OmgLqjhvK52VM7uS.T8aXyKqE7n9pupu"/>
+        </insert>
     </changeSet>
 
 </databaseChangeLog>

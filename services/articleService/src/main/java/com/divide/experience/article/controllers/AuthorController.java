@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @Api(value = "Contains operations with authors.", tags = "AuthorController")
-@RequestMapping("/author")
+@RequestMapping("/article/author")
 public class AuthorController {
 
     private AuthorFacade authorFacade;

@@ -8,8 +8,6 @@
         <dbms type="postgresql"/>
     </preConditions>
 
-<!--    TODO: delete context in change sets after resolving the issue https://github.com/liquibase/liquibase/issues/1243 -->
-    <include file="prod_environment/changelog-prod.xml" relativeToChangelogFile="true" context="prod"/>
-    <include file="test_environment/changelog-test.xml" relativeToChangelogFile="true" context="test"/>
+    <include file="1.0.0/changelog-1.0.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

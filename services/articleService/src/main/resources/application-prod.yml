@@ -2,8 +2,8 @@ spring:
   datasource:
     platform: postgres
     url: jdbc:postgresql://localhost:5432/divide_experience?currentSchema=article_service
-    username: change_me
-    password: change_me
+    username: postgres
+    password: ${DB_PASS}
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
@@ -13,8 +13,8 @@ spring:
     change-log: classpath:db/changelog/db.changelog-master.xml
     enabled: true
     url: jdbc:postgresql://localhost:5432/divide_experience
-    user: change_me
-    password: change_me
+    user: postgres
+    password: ${DB_PASS}
     default-schema: article_service
     drop-first: false
 
@@ -22,10 +22,10 @@ security:
   oauth2:
     web:
       jwt:
-        key-value: change_me
+        key-value: ${JWT_WEB_KEY}
     article:
       jwt:
-        key-value: articleService
+        key-value: ${JWT_ARTICLE_KEY}
 
 article_service:
   static_source:

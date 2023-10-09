@@ -1,6 +1,7 @@
-package com.divide.experience.article.filters;
+package com.divide.experience.article.security.filters;
 
 import com.divide.experience.article.security.JwtAuthenticationToken;
+import com.divide.experience.article.security.TypeClient;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
@@ -17,9 +18,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import static com.google.common.net.HttpHeaders.AUTHORIZATION;
 import static java.util.Optional.ofNullable;
 import static org.apache.commons.lang3.StringUtils.removeStart;
-import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 /**
  * @author Anton Oleynikov {@literal <yurolejniko@yandex.ru>}
@@ -44,7 +45,7 @@ public class JwtAuthenticationUserFilter extends AbstractAuthenticationProcessin
             throw new AuthenticationCredentialsNotFoundException("No JWT token in request headers");
         }
 
-        JwtAuthenticationToken token = new JwtAuthenticationToken(removeStart(request.getHeader(AUTHORIZATION), BEARER));
+        JwtAuthenticationToken token = new JwtAuthenticationToken(removeStart(request.getHeader(AUTHORIZATION), BEARER), TypeClient.USER);
         return getAuthenticationManager().authenticate(token);
     }
 
@@ -64,5 +65,4 @@ public class JwtAuthenticationUserFilter extends AbstractAuthenticationProcessin
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
     }
-
 }

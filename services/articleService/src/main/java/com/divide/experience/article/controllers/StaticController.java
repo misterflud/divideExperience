@@ -31,9 +31,9 @@ import java.util.List;
 /**
  * @author Anton Oleynikov {@literal <yurolejniko@yandex.ru>}
  */
-@RestController()
+@RestController
 @Api(value = "Contains operations with static sources.", tags = "StaticController")
-@RequestMapping("/static")
+@RequestMapping("/article/static")
 public class StaticController {
 
     private StaticService staticService;

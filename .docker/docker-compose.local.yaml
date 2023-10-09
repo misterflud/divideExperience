@@ -1,0 +1,19 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:13.5
+    container_name: divide_db
+    network_mode: bridge
+    ports:
+    - "127.0.0.1:5432:5432"
+    environment:
+      POSTGRES_DB: "divide_experience"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+      TZ: "Europe/Moscow"
+      PGDATA: "/var/lib/postgresql/data"
+    volumes:
+      - "./sql/create-schema.sql:/docker-entrypoint-initdb.d/create-schema.sql"
+
+                    

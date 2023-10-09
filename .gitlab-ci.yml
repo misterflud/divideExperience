@@ -1,0 +1,127 @@
+variables:
+  SERVICE_NAME: loyalty_backend
+  SERVICE_PORT: 8001
+  IMAGE_TAG: ${SERVICE_NAME}:$CI_COMMIT_SHORT_SHA
+  DEV_DB_HOST: localhost
+  DEV_DB_PORT: 5432
+  DEV_DB_NAME: loyalty_db
+  DEV_DB_SCHEME: loyalty
+  DEV_DB_USER: loyalty_user
+  DEV_JAVA_TOOL_OPTIONS: "-Xms400m -Xmx800m -XX:StringTableSize=10000"
+  PROD_DB_HOST: localhost
+  PROD_DB_PORT: 5432
+  PROD_DB_NAME: loyalty_db
+  PROD_DB_SCHEME: loyalty
+  PROD_DB_USER: loyalty_user
+  PROD_JAVA_TOOL_OPTIONS: "-Xms400m -Xmx800m -XX:StringTableSize=10000"
+
+stages:
+  - deploy-dev-loyalty-back
+  - deploy-dev-postgres-db
+  - deploy-dev-loyalty-nginx
+  - deploy-prod-loyalty-back
+  - deploy-prod-postgres-db
+  - deploy-prod-loyalty-nginx
+
+deploy-dev-loyalty-back:
+  when: manual
+  stage: deploy-dev-loyalty-back
+  tags:
+    - dev
+  script:
+    - mvn -f loyalty-api clean install
+#    - mkdir -p /home/administrator/projects/ptl/loyalty/loyalty_back/logs/ -m=rw- пока самостоятельно создаем
+    - mvn -f loyalty-db clean package compile liquibase:update
+      -Denv.DB_HOST=${DEV_DB_HOST}
+      -Denv.DB_PORT=${DEV_DB_PORT}
+      -Denv.DB_NAME=${DEV_DB_NAME}
+      -Denv.DB_SCHEME=${DEV_DB_SCHEME}
+      -Denv.DB_USER=${DEV_DB_USER}
+      -Denv.DB_PASS="$DEV_DB_PASS"
+    - mvn -f loyalty-db clean install
+    - mvn -f loyalty-impl clean install -Dmaven.test.skip=true
+    - docker stop ${SERVICE_NAME} || true
+    - docker rm ${SERVICE_NAME} || true
+    - rm -rf ./.docker/loyalty-impl-0.0.0.1.jar
+    - cp ./loyalty-impl/target/loyalty-impl-0.0.0.1.jar .docker
+    - export PROFILE=dev
+    - export DB_PASS=${DEV_DB_PASS}
+    - export DB_HOST=loyalty-db
+    - export JWT_SECRET=${DEV_JWT_SECRET}
+    - docker network create -d bridge loyalty || true
+    - docker-compose -f .docker/docker-compose.dev.yaml up -d loyalty-backend
+  
+
+deploy-dev-postgres-db:
+  when: manual
+  stage: deploy-dev-postgres-db
+  tags:
+    - dev
+  script:
+    - docker stop loyalty_db && docker rm loyalty_db
+    - export DB_PASS=${DEV_DB_PASS}
+    - docker network create -d bridge loyalty || true
+    - docker-compose -f .docker/docker-compose.dev.yaml up -d loyalty-db
+
+deploy-dev-loyalty-nginx:
+  when: manual
+  stage: deploy-dev-loyalty-nginx
+  tags:
+    - dev
+  script:
+    - sudo cp .nginx/nginx.conf /etc/nginx/nginx.conf
+    - sudo cp -r .nginx/conf.d/app_dev.conf /etc/nginx/conf.d/app.conf
+    - sudo nginx -t
+    - sudo systemctl restart nginx
+
+deploy-prod-loyalty-back:
+  when: manual
+  stage: deploy-prod-loyalty-back
+  tags:
+    - prod
+  script:
+    - pwd
+    - whoami
+    - mvn -f loyalty-api clean install
+    #    - mkdir -p /home/administrator/projects/ptl/loyalty/loyalty_back/logs/ -m=rw- пока самостоятельно создаем
+    - mvn -f loyalty-db clean package compile liquibase:update
+      -Denv.DB_HOST=${PROD_DB_HOST}
+      -Denv.DB_PORT=${PROD_DB_PORT}
+      -Denv.DB_NAME=${PROD_DB_NAME}
+      -Denv.DB_SCHEME=${PROD_DB_SCHEME}
+      -Denv.DB_USER=${PROD_DB_USER}
+      -Denv.DB_PASS=${PROD_DB_PASS}
+    - mvn -f loyalty-impl clean install -Dmaven.test.skip=true
+    - docker stop ${SERVICE_NAME} || true
+    - docker rm ${SERVICE_NAME} || true
+    - rm -rf ./.docker/loyalty-impl-0.0.0.1.jar
+    - cp ./loyalty-impl/target/loyalty-impl-0.0.0.1.jar .docker
+    - export PROFILE=prod
+    - export DB_PASS=${PROD_DB_PASS}
+    - export DB_HOST=loyalty-db
+    - export JWT_SECRET=${PROD_JWT_SECRET}
+    - docker network create -d bridge loyalty || true
+    - ls -l
+    - docker-compose -f .docker/docker-compose.prod.yaml up -d loyalty-backend
+
+deploy-prod-postgres-db:
+  when: manual
+  stage: deploy-prod-postgres-db
+  tags:
+    - prod
+  script:
+    - docker stop loyalty_db && docker rm loyalty_db
+    - export DB_PASS=${PROD_DB_PASS}
+    - docker network create -d bridge loyalty || true
+    - docker-compose -f .docker/docker-compose.prod.yaml up -d loyalty-db
+
+deploy-prod-loyalty-nginx:
+  when: manual
+  stage: deploy-prod-loyalty-nginx
+  tags:
+    - prod
+  script:
+    - sudo cp .nginx/nginx.conf /etc/nginx/nginx.conf
+    - sudo cp -r .nginx/conf.d/app_prod.conf /etc/nginx/conf.d/app.conf
+    - sudo nginx -t
+    - sudo systemctl restart nginx
