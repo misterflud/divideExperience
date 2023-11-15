@@ -3,50 +3,6 @@
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
-
-    <changeSet id="create-author-table" author="yurolejniko@yandex.ru" logicalFilePath="changelog-1.0">
-        <createTable tableName="author">
-            <column autoIncrement="true" name="AUTHOR_ID" type="SERIAL">
-                <constraints primaryKey="true" primaryKeyName="author_pkey" nullable="false"/>
-            </column>
-            <column name="EMAIL" type="VARCHAR(300)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="NICK_NAME" type="VARCHAR(300)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="FIRST_NAME" type="VARCHAR(300)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="SECOND_NAME" type="VARCHAR(300)"/>
-            <column name="THIRD_NAME" type="VARCHAR(300)"/>
-            <column name="DATE_OF_REGISTRATION" type="TIMESTAMP">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-    </changeSet>
-
-    <changeSet id="create-article-table" author="yurolejniko@yandex.ru" logicalFilePath="changelog-1.0">
-        <createTable tableName="article">
-            <column autoIncrement="true" name="ARTICLE_ID" type="SERIAL">
-                <constraints primaryKey="true" primaryKeyName="article_pkey" nullable="false"/>
-            </column>
-            <column name="AUTHOR_ID" type="INTEGER" >
-                <constraints nullable="false"/>
-            </column>
-            <column name="TITLE" type="VARCHAR(2000)"/>
-            <column name="BODY" type="TEXT"/>
-            <column name="DATE" type="TIMESTAMP">
-                <constraints nullable="false"/>
-            </column>
-            <column name="SAVED" defaultValue="false" type="BOOLEAN">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-        <addForeignKeyConstraint baseTableName="article" baseColumnNames="author_id" constraintName="author_id"
-                                 referencedTableName="author" referencedColumnNames="author_id"/>
-    </changeSet>
-
     <changeSet id="create-usr-table" author="yurolejniko@yandex.ru" logicalFilePath="changelog-1.0">
         <createTable tableName="USR">
             <column autoIncrement="true" name="USER_ID" type="SERIAL">
@@ -86,6 +42,27 @@
             <column name="ROLE" value="4"/>
             <column name="PASSWORD" value="$2a$10$uDZNEGZlppGz67AlrlPf9OmgLqjhvK52VM7uS.T8aXyKqE7n9pupu"/>
         </insert>
+    </changeSet>
+
+    <changeSet id="create-article-table" author="yurolejniko@yandex.ru" logicalFilePath="changelog-1.0">
+        <createTable tableName="article">
+            <column autoIncrement="true" name="ARTICLE_ID" type="SERIAL">
+                <constraints primaryKey="true" primaryKeyName="article_pkey" nullable="false"/>
+            </column>
+            <column name="USER_ID" type="INTEGER" >
+                <constraints nullable="false"/>
+            </column>
+            <column name="TITLE" type="VARCHAR(2000)"/>
+            <column name="BODY" type="TEXT"/>
+            <column name="DATE" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="SAVED" defaultValue="false" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="article" baseColumnNames="user_id" constraintName="user_id"
+                                 referencedTableName="usr" referencedColumnNames="user_id"/>
     </changeSet>
 
 </databaseChangeLog>

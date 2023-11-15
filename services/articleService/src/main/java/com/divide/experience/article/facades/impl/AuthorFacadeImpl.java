@@ -1,10 +1,7 @@
 package com.divide.experience.article.facades.impl;
 
-import com.divide.experience.article.converters.to.model.AuthorConverterToModel;
 import com.divide.experience.article.facades.AuthorFacade;
 import com.divide.experience.article.objects.transport.AuthorItem;
-import com.divide.experience.article.services.AuthorService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -12,11 +9,6 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class AuthorFacadeImpl implements AuthorFacade {
-    @Autowired
-    private AuthorService authorService;
-
-    @Autowired
-    private AuthorConverterToModel authorConverterToModel;
 
     /**
      * Adds author.
@@ -24,7 +16,7 @@ public class AuthorFacadeImpl implements AuthorFacade {
      */
     @Override
     public void addAuthor(AuthorItem authorItem) {
-        authorService.addAuthor(authorConverterToModel.convert(authorItem));
+        // TODO: add user
     }
 
     /**

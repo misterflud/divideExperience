@@ -1,12 +1,12 @@
 package com.divide.experience.article.services.impl;
 
 import com.divide.experience.article.dao.services.ArticleDao;
-import com.divide.experience.article.dao.services.AuthorDao;
+import com.divide.experience.article.dao.services.UserDao;
 import com.divide.experience.article.exceptions.AddingArticleException;
 import com.divide.experience.article.exceptions.NoSuchAuthorException;
 import com.divide.experience.article.objects.PaginationParameters;
 import com.divide.experience.article.objects.domain.ArticleModel;
-import com.divide.experience.article.objects.domain.AuthorModel;
+import com.divide.experience.article.objects.domain.UserModel;
 import com.divide.experience.article.services.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,7 +23,7 @@ import java.util.List;
 public class ArticleServiceImpl implements ArticleService {
 
     private ArticleDao articleDao;
-    private AuthorDao authorDao;
+    private UserDao userDao;
 
     @Override
     public void addArticle(ArticleModel articleModel) throws AddingArticleException {
@@ -38,7 +38,7 @@ public class ArticleServiceImpl implements ArticleService {
                 articleDao.updateArticle(oldArticle);
             } else {
                 articleModel.setDate(new Date());
-                articleModel.setAuthorModel(authorDao.getAuthorByEmail(userDetails.getUsername()));
+                articleModel.setUserModel(userDao.getUserByEmail(userDetails.getUsername()));
                 articleDao.addArticle(articleModel);
             }
         }
@@ -71,16 +71,17 @@ public class ArticleServiceImpl implements ArticleService {
     public ArticleModel generateNewArticle() throws NoSuchAuthorException {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getDetails();
         if (userDetails != null) {
-            AuthorModel author = authorDao.getAuthorByEmail(userDetails.getUsername());
-            if (author != null) {
-                if (articleDao.getNotSavedArticle(author) == null) {
+
+            UserModel user = userDao.getUserByEmail(userDetails.getUsername());
+            if (user != null) {
+                if (articleDao.getNotSavedArticle(user) == null) {
                     ArticleModel article = new ArticleModel();
                     article.setSaved(false);
-                    article.setAuthorModel(author);
+                    article.setUserModel(user);
                     article.setDate(new Date());
                     return articleDao.addArticle(article);
                 } else {
-                    return articleDao.getNotSavedArticle(author);
+                    return articleDao.getNotSavedArticle(user);
                 }
             }
         }
@@ -88,8 +89,8 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Autowired
-    public void setAuthorDao(AuthorDao authorDao) {
-        this.authorDao = authorDao;
+    public void setUserDao(UserDao userDao) {
+        this.userDao = userDao;
     }
 
     @Autowired

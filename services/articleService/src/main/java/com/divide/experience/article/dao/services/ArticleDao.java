@@ -2,7 +2,7 @@ package com.divide.experience.article.dao.services;
 
 import com.divide.experience.article.objects.PaginationParameters;
 import com.divide.experience.article.objects.domain.ArticleModel;
-import com.divide.experience.article.objects.domain.AuthorModel;
+import com.divide.experience.article.objects.domain.UserModel;
 
 import java.util.List;
 
@@ -52,8 +52,8 @@ public interface ArticleDao {
     /**
      * Gets not saved article.
      *
-     * @param authorModel article.
+     * @param userModel article.
      * @return article.
      */
-    ArticleModel getNotSavedArticle(AuthorModel authorModel);
+    ArticleModel getNotSavedArticle(UserModel userModel);
 }

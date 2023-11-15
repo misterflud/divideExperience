@@ -55,9 +55,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers("/p/**", "/**/p")
             .authenticated()
             .and()
-            .addFilterBefore(new JwtAuthenticationUserFilter("/p/**", authenticationManagerBean()),
-                UsernamePasswordAuthenticationFilter.class)
-            .addFilterBefore(new JwtAuthenticationUserFilter("/**/p", authenticationManagerBean()),
+            .addFilterBefore(new JwtAuthenticationUserFilter("/article/p/**", authenticationManagerBean()),
                 UsernamePasswordAuthenticationFilter.class)
             .addFilterBefore(new LoginAuthenticationFilter("/auth/login", authenticationManagerBean(), jwtTokenProcessor),
                 UsernamePasswordAuthenticationFilter.class)

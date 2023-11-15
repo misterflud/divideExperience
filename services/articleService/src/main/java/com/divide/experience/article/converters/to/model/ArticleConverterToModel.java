@@ -2,7 +2,7 @@ package com.divide.experience.article.converters.to.model;
 
 import com.divide.experience.article.objects.domain.ArticleModel;
 import com.divide.experience.article.objects.transport.ArticleItem;
-import com.divide.experience.article.services.AuthorService;
+import com.divide.experience.article.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ArticleConverterToModel implements Converter<ArticleItem, ArticleModel> {
 
-    private AuthorService authorService;
+    private UserService userService;
 
     /** Converts to model. */
     @Override
@@ -22,12 +22,12 @@ public class ArticleConverterToModel implements Converter<ArticleItem, ArticleMo
         articleModel.setBody(userArticleItem.getBody());
         articleModel.setTitle(userArticleItem.getTitle());
         articleModel.setId(userArticleItem.getId());
-        articleModel.setAuthorModel(authorService.getAuthorByEmail(userArticleItem.getAuthorItem().getEmail()));
+        articleModel.setUserModel(userService.getUserByEmail(userArticleItem.getAuthorItem().getEmail()));
         return articleModel;
     }
 
     @Autowired
-    public void setAuthorService(AuthorService authorService) {
-        this.authorService = authorService;
+    public void setUserService(UserService userService) {
+        this.userService = userService;
     }
 }

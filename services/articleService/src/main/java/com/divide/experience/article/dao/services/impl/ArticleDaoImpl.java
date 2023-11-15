@@ -3,7 +3,7 @@ package com.divide.experience.article.dao.services.impl;
 import com.divide.experience.article.dao.services.ArticleDao;
 import com.divide.experience.article.objects.PaginationParameters;
 import com.divide.experience.article.objects.domain.ArticleModel;
-import com.divide.experience.article.objects.domain.AuthorModel;
+import com.divide.experience.article.objects.domain.UserModel;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -69,10 +69,10 @@ public class ArticleDaoImpl implements ArticleDao {
 
 
     @Override
-    public ArticleModel getNotSavedArticle(AuthorModel articleModel) {
+    public ArticleModel getNotSavedArticle(UserModel userModel) {
         try (Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession()) {
             return (ArticleModel) session.getNamedQuery("ArticleModel.getNotSavedArticle")
-                    .setParameter("authorId", articleModel.getId()).uniqueResult();
+                    .setParameter("authorId", userModel.getId()).uniqueResult();
         }
     }
 }

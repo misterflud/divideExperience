@@ -2,7 +2,6 @@ package com.divide.experience.article.security;
 
 import com.divide.experience.article.security.service.CustomUserDetailsService;
 import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,7 +25,7 @@ public class JwtAuthenticationTokenProvider implements AuthenticationProvider {
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         Assert.notNull(authentication, "Authentication is missing");
-        Assert.isInstanceOf(UsernamePasswordAuthenticationToken.class, authentication, "This method only accepts JwtAuthenticationToken");
+        Assert.isInstanceOf(JwtAuthenticationToken.class, authentication, "This method only accepts JwtAuthenticationToken");
         String email = tokenProcessor.getUserFromToken(authentication.getName());
         UserDetails userDetails = userDetailsService.loadUserByUsername(email);
         if (userDetails != null) {

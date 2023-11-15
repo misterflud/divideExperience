@@ -21,13 +21,13 @@ import javax.persistence.Table;
 @Table(name = "ARTICLE")
 @NamedQueries({
         @NamedQuery(name = "ArticleModel.findById",
-                query = "SELECT DISTINCT a FROM ArticleModel a LEFT JOIN FETCH a.authorModel t WHERE a.id =:id"),
+                query = "SELECT DISTINCT a FROM ArticleModel a LEFT JOIN FETCH a.userModel t WHERE a.id =:id"),
         @NamedQuery(name = "ArticleModel.findById.short",
                 query = "SELECT DISTINCT a FROM ArticleModel a WHERE a.id =:id"),
         @NamedQuery(name = "ArticleModel.all",
                 query = "SELECT a FROM ArticleModel a"),
         @NamedQuery(name = "ArticleModel.getNotSavedArticle",
-                query = "SELECT a FROM ArticleModel a LEFT JOIN FETCH a.authorModel at WHERE at.id = :authorId and a.saved = false"),
+                query = "SELECT a FROM ArticleModel a LEFT JOIN FETCH a.userModel at WHERE at.id = :authorId and a.saved = false"),
         @NamedQuery(name = "ArticleModel.list",
                 query = "SELECT a FROM ArticleModel a WHERE a.saved = true ORDER BY a.date DESC")
 })
@@ -42,8 +42,8 @@ public class ArticleModel implements Serializable {
     private Integer id;
 
     @OneToOne
-    @JoinColumn(name = "AUTHOR_ID")
-    private AuthorModel authorModel;
+    @JoinColumn(name = "USER_ID")
+    private UserModel userModel;
 
     @Column(name = "TITLE")
     private String title;
@@ -65,12 +65,12 @@ public class ArticleModel implements Serializable {
         this.id = id;
     }
 
-    public AuthorModel getAuthorModel() {
-        return authorModel;
+    public UserModel getUserModel() {
+        return userModel;
     }
 
-    public void setAuthorModel(AuthorModel authorModel) {
-        this.authorModel = authorModel;
+    public void setUserModel(UserModel userModel) {
+        this.userModel = userModel;
     }
 
     public String getTitle() {

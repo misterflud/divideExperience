@@ -1,8 +1,8 @@
 package com.divide.experience.article.services.impl;
 
 import com.divide.experience.article.dao.services.ArticleDao;
-import com.divide.experience.article.dao.services.AuthorDao;
-import com.divide.experience.article.objects.domain.AuthorModel;
+import com.divide.experience.article.dao.services.UserDao;
+import com.divide.experience.article.objects.domain.UserModel;
 import com.divide.experience.article.objects.transport.StaticSource;
 import com.divide.experience.article.services.StaticResourceStrategy;
 import com.divide.experience.article.services.StaticService;
@@ -24,7 +24,7 @@ public class StaticServiceImpl implements StaticService {
 
     private Map<String, StaticResourceStrategy> map;
     private ArticleDao articleDao;
-    private AuthorDao authorDao;
+    private UserDao userDao;
 
     @Override
     public byte[] getArticleStaticSource(String nameSource, int articleId) throws IOException {
@@ -42,9 +42,9 @@ public class StaticServiceImpl implements StaticService {
     public void deleteStaticSource(String nameSource) {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getDetails();
         if (userDetails != null) {
-            AuthorModel author = authorDao.getAuthorByEmail(userDetails.getUsername());
+            UserModel user = userDao.getUserByEmail(userDetails.getUsername());
             map.get(TypeStaticResourceStrategy.SERVER.getBeanName())
-                    .deleteStaticSource(nameSource, articleDao.getNotSavedArticle(author));
+                    .deleteStaticSource(nameSource, articleDao.getNotSavedArticle(user));
         }
     }
 
@@ -65,7 +65,7 @@ public class StaticServiceImpl implements StaticService {
     }
 
     @Autowired
-    public void setAuthorDao(AuthorDao authorDao) {
-        this.authorDao = authorDao;
+    public void setUserDao(UserDao userDao) {
+        this.userDao = userDao;
     }
 }

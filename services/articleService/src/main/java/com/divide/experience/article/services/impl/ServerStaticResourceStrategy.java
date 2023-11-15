@@ -87,7 +87,7 @@ public class ServerStaticResourceStrategy implements StaticResourceStrategy {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
         String date = localDate.format(formatter);
         return String.format(basePath,
-                articleModel.getAuthorModel().getId(),
+                articleModel.getUserModel().getId(),
                 date,
                 articleModel.getId().toString());
     }
