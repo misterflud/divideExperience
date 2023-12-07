@@ -1,0 +1,55 @@
+version: "3.8"
+
+services:
+  divide-backend:
+    image: openjdk:16
+    container_name: "divide_backend"
+    networks:
+      - divide
+    restart: always
+    ports:
+      - "8090:8090"
+    environment:
+      DB_PASS: ${DB_PASS}
+      DB_HOST: ${DB_HOST}
+    volumes:
+      - "./articleService-0.0.1.jar:/app.jar"
+      - "/home/administrator/projects/ptl/divide/divide_back/logs/:/home/administrator/projects/ptl/divie/divide_back/logs/"
+    command: [ 'java', '-Dspring.profiles.active=${PROFILE}', '-DDB_PASS=${DB_PASS}', '-DB_HOST=${DB_HOST}', '-DJWT_SECRET=${JWT_SECRET}', '-jar', '/app.jar' ]
+
+  divide-db:
+    image: postgres:13.5
+    container_name: divide_db
+    networks:
+      - divide
+    ports:
+      - "127.0.0.1:5432:5432"
+    environment:
+      POSTGRES_DB: "divide_experience"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: ${DB_PASS}
+      PGDATA: "/var/lib/postgresql/data"
+    volumes:
+      - "/home/administrator/projects/ptl/divide/db:/var/lib/postgresql/data"
+      - "../divide-db/sql/create-schema.sql:/docker-entrypoint-initdb.d/create-schema.sql"
+
+  divide-front:
+    image: divide_frontend
+    container_name: divide_frontend
+    networks:
+      - divide
+    ports:
+      - '127.0.0.1:3000:3000'
+    build:
+      context: ../
+      target: development
+      args:
+        - REACT_APP_URI=${REACT_APP_URI}
+    volumes:
+      - ./src:/app/src
+
+networks:
+  divivde:
+    name: divivde
+    driver: bridge
+    external: true

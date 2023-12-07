@@ -3,7 +3,6 @@ package com.divide.experience.article.converters;
 import com.divide.experience.article.objects.domain.Role;
 import com.divide.experience.article.objects.domain.UserModel;
 import com.divide.experience.article.objects.transport.NewUserItem;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**

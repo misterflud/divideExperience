@@ -28,7 +28,7 @@ import java.util.List;
 
 /**
  * @author Anton Oleynikov {@literal <yurolejniko@yandex.ru>}
- * http://localhost:6002/article/swagger-ui.html#/
+ *
  */
 @EnableSwagger2
 @Import(springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration.class)
@@ -36,6 +36,8 @@ import java.util.List;
 public class SwaggerAndSpringFoxConfig {
 
     private static final String DEFAULT_INCLUDE_PATTERN = "(.*/p/.*)|(.*/p)";
+
+    //http://localhost:6002/article/swagger-ui.html#/
 
     @Bean
     public Docket api() {
